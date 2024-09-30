@@ -1,0 +1,39 @@
+---
+import { getI18N } from "../i18n"
+
+const {currentLocale} = Astro
+const i18n = getI18N({currentLocale})
+
+import "../styles/pages/create-inputs/menu.css"
+---
+
+<article class="container-inputs" >
+  <div class="container-menu">
+      <input id="menu" type="checkbox" class="menu">
+      <label class="container-menu__label" for="menu"><span class="container-menu__icon" ></span></label>
+  </div>
+
+  <div class="container-elements" >
+      <ul class="container-elements__elements" >
+      {
+        i18n.PROJECTS.WEB_COMPONENTS.map((component)=>(
+          <p  class="container-element__title" >{component.TITLE} </p>
+          <>
+              {
+                component.INPUTS.map(input=>(
+                <li
+                  class="container-elements__item"
+                  >
+                  <button class="container-elements__btn"
+                  id={input}
+                    >{input}
+                  </button>
+                </li>
+                ))
+              }
+          </>
+        ))
+      }
+      </ul>
+  </div>
+</article>

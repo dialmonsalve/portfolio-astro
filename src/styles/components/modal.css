@@ -1,0 +1,100 @@
+.modal {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--backdrop-filter);
+  backdrop-filter: blur(3px);
+  top: 0;
+  z-index: 999;
+  display: flex;
+}
+
+.show-modal {
+  transition:
+    opacity 0.25s ease-in-out,
+    display 0.25s ease-in-out;
+  transition-behavior: allow-discrete;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.modal-content {
+  border-radius: 6px;
+  max-width: 400px;
+  width: 400px;
+  background-color: var(--contrary);
+  backdrop-filter: blur(2px);
+  margin: auto auto;
+  padding: 1.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.hide-modal {
+  opacity: 0;
+}
+
+.modal-header__title {
+  text-transform: uppercase;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.modal-footer {
+  display: flex;
+  align-self: flex-end;
+  gap: 2rem;
+}
+
+.modal-footer__button-1,
+.modal-footer__button-2 {
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px #808088cd;
+  transition: all 0.2s ease-in;
+}
+
+.modal-footer__button-1:active,
+.modal-footer__button-2:active {
+  box-shadow: 2px 2px 0px #808088cd inset;
+}
+
+.modal-footer__button-1:hover,
+.modal-footer__button-2:hover {
+  opacity: 0.95;
+  transform: scale(1.1);
+}
+.modal-footer__button-1 {
+  background-color: var(--green);
+}
+
+.modal-footer__button-2 {
+  background-color: #a73838;
+}
+
+.green {
+  border-top: 5px solid var(--green);
+}
+
+.red {
+  border-top: 5px solid #710d0d;
+}
+
+.yellow {
+  border-top: 5px solid var(--yellow);
+}
+
+.purple {
+  border-top: 5px solid var(--purple);
+}

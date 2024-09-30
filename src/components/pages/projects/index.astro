@@ -1,0 +1,43 @@
+---
+import Card from "../../Card.astro"
+import "../../../styles/pages/projects/projects.css"
+
+import { getI18N } from "../../../i18n"
+
+const {currentLocale} = Astro
+const i18n = getI18N({currentLocale})
+---
+
+<h1 transition:animate="slide" >{i18n.PROJECTS.TITLE}</h1>
+
+<section class="section-projects">
+
+  <article class="article-cards__proyects">
+    {
+      i18n.PROJECTS.EXTERNAL_PROJECTS.map(project =>(
+        <Card 
+          title={project.TITLE} 
+          image={project.IMAGE} 
+          description={project.DESCRIPTION}
+          slug={project.SLUG}
+          isExternalProject={true}
+        />
+      ))
+    }
+  </article>
+
+  <article class="article-cards__proyects">
+    {
+      i18n.PROJECTS.INTERNAL_PROJECTS.map(project =>(
+        <Card 
+          title={project.TITLE} 
+          image={project.IMAGE} 
+          description={project.DESCRIPTION}
+          slug={project.SLUG}
+          isExternalProject={false}
+      />
+      ))
+    }
+  </article>
+</section>
+

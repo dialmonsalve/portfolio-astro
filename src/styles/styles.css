@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --primary-color: #0078b4;
+  --secondary-color: #fff;
+  --background-color: rgba(244, 244, 244, 1);
+  --text-color: #0f0f0f;
+  --backdrop-filter: #e7e7e74f;
+  --color-white: #fff;
+  --shadow1: #808280df;
+  --shadow2: #0078b4;
+  --yellow: #f2d732;
+  --blue: #2196f3;
+  --green: #4caf50;
+  --purple: #9c27b0;
+  --gray: #d3d3d3;
+  --red: #ff0000;
+  --contrary: #ffffff;
+  --contrary-text-color: #fff;
+}
+
+.dark {
+  --primary-color: #27bd48;
+  --secondary-color: #000;
+  --background-color: #121212;
+  --text-color: #fff;
+  --backdrop-filter: #0f0f0fcc;
+  --color-white: #fff;
+  --shadow1: #000000df;
+  --shadow2: #0bf34cdf;
+  --yellow: #ffc107;
+  --blue: #1976d2;
+  --green: #388e3c;
+  --purple: #673ab7;
+  --gray: #a9a9a9;
+  --red: #ff5252;
+  --contrary: rgba(244, 244, 244, 1);
+  --contrary-text-color: #0f0f0f;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+  text-transform: uppercase;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+select {
+  /*appearance: none;*/
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+
+body {
+  background: var(--background-color);
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  overflow: hidden;
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  padding: 0 4rem;
+}
+
+.hide-btn-theme {
+  display: none;
+  opacity: 0;
+}
+
+html {
+  font-size: 62.5%; /* 10px */
+}
+
+@media (max-width: 75em) {
+  /* 1200px */
+  html {
+    font-size: 56.25%; /* 9px */
+  }
+}
+
+@media (min-width: 112.5em) {
+  /* 1800px */
+  html {
+    font-size: 75%; /* 12px */
+  }
+}
+@media (max-width: 37.5em) {
+  /* 600px */
+  html {
+    font-size: 50%; /* 8px */
+  }
+}

@@ -1,0 +1,32 @@
+---
+import {getLangFromUrl, useTranslations, useTranslatedPath} from "../i18n/utils.ts"
+
+import Home from "../icon/Home.astro"
+import  "../styles/layout/navbar.css"
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+const translatePath = useTranslatedPath(lang)
+
+
+---
+<nav class="nav">
+    <ul class="container-nav">
+      <li class="container-nav__item">
+        <a class="container-nav__link" href={translatePath("/")}><Home /></a> 
+      </li>
+
+      <li class="container-nav__item">
+      <a class="container-nav__link" href={translatePath("/about/")} )}>{t('nav.about')} </a>
+      </li>
+      <li class="container-nav__item">
+          <a class="container-nav__link" href={translatePath("/services/") }>{t('nav.services')} </a> </li>
+      <li class="container-nav__item">
+      <a class="container-nav__link" href={translatePath("/projects/")} )}>{t('nav.projects')} </a>
+      </li>
+      <li class="container-nav__item">
+      <a class="container-nav__link" href={translatePath("/contact/")} )}>{t('nav.contact')} </a>
+      </li>
+    </ul>
+</nav>
+

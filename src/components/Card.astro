@@ -1,0 +1,47 @@
+---
+import {getLangFromUrl,  useTranslatedPath} from "../i18n/utils.ts"
+import "../styles/components/card.css"
+
+interface Props {
+  title: string;
+  image: string;
+  description: string;
+  slug: string;
+  isExternalProject: boolean
+}
+import { getI18N } from "../i18n"
+
+const {currentLocale} = Astro
+const i18n = getI18N({currentLocale})
+
+const lang = getLangFromUrl(Astro.url)
+const translatePath = useTranslatedPath(lang)
+
+const { title, image, description, slug, isExternalProject  } = Astro.props
+
+---
+<div class="card">
+
+  <div class="card__head">
+    <h6 class="card__head--title" transition:name={slug} >{title}</h6>
+  </div>
+
+  <div class="card__body">
+    <img class="card__body--image"src={image} alt={description}>
+    <p class="card__body--description">{description}</p>
+  </div>
+
+  <div class="card__buttons">
+    <button class="card__buttons--more">{i18n.GENERAL.MORE}</button>
+    {
+    isExternalProject 
+    ? <a target="_blank" referrerpolicy="no-referrer" href={slug} class="card__buttons--go">{i18n.GENERAL.GO}</a>
+    : <a 
+        href={translatePath(`/projects/${slug}`)} 
+        class="card__buttons--go"
+      >{i18n.GENERAL.GO}
+      </a>
+    }
+  </div>
+
+</div>

@@ -1,0 +1,84 @@
+.section-forms {
+  position: relative;
+}
+
+.section-forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.container-card-form {
+  position: relative;
+  padding: 2rem;
+  min-width: 650px;
+  border: 1px solid #8080805a;
+  border-radius: 8px;
+}
+
+.button-square-add ,
+.button-square-remove {
+  background-size: 18px;
+  background-repeat: no-repeat;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+}
+
+.button-square-add {
+  background-image: url('/img/add.svg');
+}
+
+.button-square-remove {
+  background-image: url('/img/minus.svg');
+}
+
+.card {
+  transition:
+    opacity 0.3s ease-in-out,
+    display 1s ease-in-out allow-discrete;
+  display: flex;
+
+}
+
+.container-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin: 0 auto;
+}
+.card__button-add, .card__button-remove{
+  position: absolute;
+  top: -50%;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+
+}
+.card__button-add {
+  right: 0;
+  color: var(--green);
+}
+
+.card__button-remove {
+  left: 0;
+  color: var(--red);
+}
+
+.card__button-add:hover {
+  opacity: .65;
+}
+
+@media (max-width: 75em) {
+  /* 1200px */
+}
+
+@media (min-width: 112.5em) {
+  /* 1800px */
+}
+
+@media (max-width: 37.5em) {
+  /* 600px */
+}

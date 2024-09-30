@@ -1,0 +1,79 @@
+---
+import { languages } from "../i18n/ui";
+import {
+  useTranslatedPath,
+  getLangFromUrl,
+  getRouteFromUrl,
+} from "../i18n/utils";
+import Dark from "../icon/Dark.astro";
+import Light from "../icon/Light.astro";
+import "../styles/layout/header.css";
+
+const lang = getLangFromUrl(Astro.url);
+const translatePath = useTranslatedPath(lang);
+const route = getRouteFromUrl(Astro.url);
+
+---
+
+<div class="header">
+  <div class="conainer-logo">
+    <div class="conainer-logo__logo">logo</div>
+  </div>
+
+  <div class="container-options">
+    <button class="container-themes__theme" id="dark">
+      <Dark />
+    </button>
+    <button id="light" class="container-themes__theme">
+      <Light />
+    </button>
+    <div class="container-language">
+      <span id="language" class="container-language__text">{lang}</span>
+      <ul class="language">
+        {
+          Object.entries(languages).map(([lang, label]) => (
+            <li class="language__item">
+              <a class="language__link" href={translatePath(`/${route ? route : ''}`, lang)}>{label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const setToggleListener = () => {
+    const element = document.documentElement;
+
+    const btnLight = document.querySelector("#light");
+    const btnDark = document.querySelector("#dark");
+    const isDarkSelected = localStorage.getItem("theme");
+
+    if(isDarkSelected === 'dark'){
+      btnDark?.classList.add("hide-btn-theme")
+    }else{
+      btnLight?.classList.add("hide-btn-theme")
+    }
+
+    const setLightTheme  =() =>{
+      btnLight?.classList.add("hide-btn-theme")
+      btnDark?.classList.remove("hide-btn-theme")
+      element.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+
+    const setDarkTheme  =()=>{
+      btnDark?.classList.add("hide-btn-theme")
+      btnLight?.classList.remove("hide-btn-theme")
+      element.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+    btnLight?.addEventListener("click", setLightTheme)
+    btnDark?.addEventListener("click" ,setDarkTheme)
+
+  }
+  setToggleListener();
+
+  document.addEventListener("astro:after-swap", setToggleListener);
+</script>

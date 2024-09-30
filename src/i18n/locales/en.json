@@ -1,0 +1,48 @@
+{
+  "GENERAL": {
+    "MORE": "more",
+    "GO": "go"
+  },
+  "HOME": {
+    "TITLE": "hello"
+  },
+  "PROJECTS": {
+    "TITLE": "Projects",
+    "EXTERNAL_PROJECTS": [
+      {
+        "TITLE": "dialui-components",
+        "IMAGE": "",
+        "DESCRIPTION": "React components",
+        "SLUG": "https://dialui-components.netlify.app"
+      }
+    ],
+    "INTERNAL_PROJECTS": [
+      {
+        "TITLE": "web components",
+        "IMAGE": "",
+        "DESCRIPTION": "Create your forms",
+        "SLUG": "web-components"
+      }
+    ],
+    "WEB_COMPONENTS":[
+      {
+        "TITLE": "TEXT",
+        "INPUTS" : [ "heading", "paragraph"]
+      },
+      {
+        "TITLE": "INPUTS",
+        "INPUTS" : [ 
+          "text", "email", "phone", "number", "password", "date", "time", "select", 
+          "signature", "checkbox", "radio-buttons", "textarea"
+        ]
+      },
+      {
+        "TITLE": "IMAGES",
+        "INPUTS" : [ "one-image", "multi-images", "files", "image-view"]
+      }
+
+    ]
+    
+  }
+}
+

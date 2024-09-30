@@ -1,0 +1,8 @@
+---
+import { getI18N } from "../../i18n"
+
+const {currentLocale} = Astro
+const i18n = getI18N({currentLocale})
+---
+
+<h1 transition:name="hello"  transition:animate="slide">{ i18n.HOME.TITLE }</h1>

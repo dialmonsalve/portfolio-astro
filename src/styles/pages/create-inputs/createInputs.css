@@ -1,0 +1,138 @@
+.container-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+.card {
+  display: flex;
+  position: relative;
+  transition:
+    opacity 0.3s ease-in-out,
+    display 1s ease-in-out allow-discrete;
+}
+
+/* 
+
+
+
+.show-card {
+  display: flex;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.card__button-remove {
+  position: absolute;
+  top: -28px;
+  left: 0;
+  font-size: 0.6rem;
+  color: red;
+}
+
+.card__button-update {
+}
+
+.button-square-remove {
+  color: red;
+}
+
+.button-square-remove {
+  padding: 0.5rem 0rem;
+  border-radius: 4px;
+}
+
+.card__button-remove:hover > .button-square-remove {
+  color: white;
+  background-color: #cf5d5d7c;
+}
+
+.radios-modal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: center;
+}
+
+.modal-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.container-heading {
+  position: relative;
+}
+
+.container-heading__btn-add,
+.container-heading__btn-rmv {
+  position: absolute;
+  top: -15px;
+  color: white;
+  padding: 0.1rem 0.5rem;
+  font-weight: 700;
+  font-size: 10px;
+  border-radius: 50%;
+}
+
+.container-heading__btn-add {
+  left: 0;
+  background-color: #348434;
+}
+
+.container-heading__btn-rmv {
+  left: 30px;
+  background-color: #db1515;
+}
+
+.container-heading__btn-add:hover,
+.container-heading__btn-rmv:hover {
+  opacity: 0.8;
+}
+.container-components {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: thin solid #8080802c;
+  border-radius: 5px;
+}
+
+.heading1,
+.heading2 {
+  width: 100%;
+}
+
+.inputs-btn-update {
+  position: absolute;
+  left: -10px;
+  top: -20px;
+}
+
+.inputs-btn-delete {
+  position: absolute;
+  left: 30px;
+  top: -20px;
+  color: #db1515;
+}
+.container-control-row,
+.container-control-column {
+  width: 100%;
+}
+.container-card-form {
+  gap: 2rem;
+}
+
+.container-components__image {
+  width: 100%;
+}
+
+.container-modal-checkbox {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 0.5rem;
+} */
