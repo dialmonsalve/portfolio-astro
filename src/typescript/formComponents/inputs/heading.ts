@@ -8,8 +8,11 @@ interface RadioButtons {
   id: string
 }
 
-const headingButton: HTMLButtonElement | null = document.querySelector("#heading");
-const $ = (selector: keyof HTMLElementTagNameMap) => document.querySelector(selector);
+const doc = document;
+const headingButton: HTMLButtonElement | null = doc.querySelector("#heading");
+const $ = (selector: string) => doc.querySelector(selector);
+const $containerCards = $('.container-forms');
+
 
 const radioButtonsData: RadioButtons[] = [
   {
@@ -39,11 +42,18 @@ export default function heading() {
 
 function addComponent(): HTMLElement {
 
-  const $parentDiv = document.createElement('modal-body');
-  const $radioButtons = document.createElement('app-radio-buttons');
+  const $parentDiv = doc.createElement('modal-body');
+  const $radioButtons = doc.createElement('app-radio-buttons');
+  const $input = doc.createElement('app-input');
+
+  $input.setAttribute('type', 'text');
+  $input.setAttribute('labelText', 'text');
+  $input.setAttribute('hola', 'mundo');
+
   $radioButtons.id = 'container-radios-headings';
   $radioButtons.setAttribute('radios', JSON.stringify(radioButtonsData));
 
+  $parentDiv.appendChild($input);
   $parentDiv.appendChild($radioButtons);
 
   return $parentDiv;
@@ -51,12 +61,15 @@ function addComponent(): HTMLElement {
 
 function add(target: EventTarget | null) {
 
-  const $radioButtons = document.querySelector('#container-radios-headings') as AppRadioButtons;
+  const $radioButtons = $('#container-radios-headings') as AppRadioButtons;
 
-  console.log({value: $radioButtons?.value});
+  const $lastChildren = $containerCards?.lastElementChild;
 
+  const $heading = doc.createElement($radioButtons.value)
 
+  $lastChildren?.appendChild($heading);
 
+  console.log($lastChildren);
 
 }
 
