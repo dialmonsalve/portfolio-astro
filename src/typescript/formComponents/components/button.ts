@@ -1,24 +1,27 @@
 interface Button {
-  incrementId: number;
-  type: 'add' | 'update' | 'remove';
+  text: string;
+  id: string;
+  spanClass: string;
+  buttonClass: string;
 }
 
-export default function button({ incrementId, type }: Button, fn: (evt: MouseEvent, incrementId: number) => void) {
+export default function button({ text, id, spanClass, buttonClass }: Button, fn: (evt: MouseEvent) => void) {
 
   const button = document.createElement('BUTTON');
+  const span = document.createElement("SPAN");
 
-  const span = document.createElement('SPAN');
+  const buttonText = document.createTextNode(text);
 
-  const buttonText = document.createTextNode(`${type} page`);
+  button.id = id
+  button.classList.add(buttonClass)
+
+  span.classList.add(spanClass);
+
   button.appendChild(buttonText);
-
-  span.classList.add(`button-square-${type}`);
-  button.classList.add(`card__button-${type}`);
-  const id = type === 'add' ? `button-${type}-page` : `button-${type}-page-${incrementId}`;
-  button.id = id;
   button.appendChild(span);
 
-  button.addEventListener("click", (evt) => fn(evt, incrementId));
+  button.addEventListener('click', fn)
 
   return button;
-}
+
+} 

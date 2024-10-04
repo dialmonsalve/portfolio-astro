@@ -19,7 +19,7 @@ export default class AppRadioButtons extends HTMLElement {
 
     const link = document.createElement('LINK') as HTMLLinkElement;
     link.rel = 'stylesheet';
-    link.href = new URL('./radio-buttons.css', import.meta.url).href;
+    link.href = new URL('./styles/radio-buttons.css', import.meta.url).href;
 
     shadow.appendChild(link);
   }

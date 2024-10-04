@@ -15,8 +15,21 @@ function add(evt: MouseEvent, incrementId: number) {
   const page = document.createElement('DIV');
   const target = evt.target as HTMLElement;
 
-  const buttonAdd = button({ incrementId, type: 'add' }, (evt) => add(evt, incrementId))
-  const buttonDelete = button({ incrementId, type: 'remove' }, (evt) => remove(evt, incrementId))
+  const buttonAdd = button({
+    text: "add-page",
+    spanClass: "button-square-add",
+    buttonClass: 'card__button-add',
+    id: 'add-page'
+  },
+    (evt) => add(evt, incrementId))
+
+  const buttonDelete = button({
+    id: `remove-page-${incrementId}`,
+    text: "remove-page",
+    spanClass: "button-square-remove",
+    buttonClass: 'card__button-remove'
+  },
+    (evt) => remove(evt, incrementId))
 
   page.classList.add('container-card-form', 'card');
   page.id = `card-${incrementId}`;
@@ -49,7 +62,13 @@ function remove(evt: MouseEvent, incrementId: number) {
 
   const isLastCard = parentDiv === parentCards?.lastElementChild;
 
-  const buttonAdd = button({ incrementId, type: "add" }, (evt) => add(evt, incrementId));
+  const buttonAdd = button({
+    text: "add-page",
+    spanClass: "button-square-add",
+    buttonClass: 'card__button-add',
+    id: 'add-page'
+  },
+    (evt) => add(evt, incrementId))
 
   if (parentCards?.childElementCount === 2) {
     previousCard?.appendChild(buttonAdd);
@@ -64,6 +83,6 @@ function remove(evt: MouseEvent, incrementId: number) {
   const filterPages = allPages.filter(page => page.id !== parentDiv.id)
 
   console.log(filterPages);
-  
+
 
 }

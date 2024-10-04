@@ -1,0 +1,33 @@
+:host{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+canvas {
+  border: 1px solid #80808046;
+  border-radius: 4px;
+  background-color: white;
+}
+
+button {
+  width: fit-content;
+  border: thin solid #ff000083;
+  color:#ff0000f5;
+  padding: .3rem .6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: #ff00009a;
+  color: white;
+}
+
+button:active{
+  box-shadow: 1px 1px 4px red inset;
+}
+
+input{
+  display: none;
+}

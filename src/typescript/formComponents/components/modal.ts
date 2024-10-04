@@ -8,7 +8,7 @@ const Color = {
 interface Modal {
   title: string;
   type?: keyof typeof Color;
-  content?: ()=>HTMLElement;
+  content?: () => HTMLElement | undefined;
   action?: (e: MouseEvent) => void;
 }
 
@@ -27,20 +27,20 @@ export default function modal({ title, content, type = "green", action }: Modal)
   const $titleModal = document.createElement("p");
   $titleModal.classList.add("modal-header__title");
   $titleModal.textContent = title;
-  
+
   const $modalFooter = document.createElement("div");
   $modalFooter.classList.add("modal-footer");
-  
+
   const $buttonFooter1 = document.createElement("button");
   $buttonFooter1.classList.add("modal-footer__button-1");
   $buttonFooter1.textContent = "ok";
-  
+
   const $buttonFooter2 = document.createElement("button");
   $buttonFooter2.classList.add("modal-footer__button-2");
   $buttonFooter2.textContent = "Cancel";
-  
+
   const $element = document.createElement("div");
-  
+
   const $nodeChild = content ? content() : $element;
   $element?.classList.add("modal-body");
 
@@ -50,7 +50,7 @@ export default function modal({ title, content, type = "green", action }: Modal)
   $modalFooter.appendChild($buttonFooter2);
 
   $containerModal.appendChild($modalHeader);
-  $containerModal.appendChild($nodeChild);
+  $containerModal.appendChild($nodeChild!);
   $containerModal.appendChild($modalFooter);
   $modal.appendChild($containerModal);
 

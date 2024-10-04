@@ -1,13 +1,9 @@
-export default class ModalBody extends HTMLElement {
+export default class AppModalBody extends HTMLElement {
   static css = `
     :host {      
       display:flex;
       flex-direction:column;
       gap: 1rem; 
-    }
-      
-    .container-inputs {
-
     }
   `
   constructor() {
@@ -16,7 +12,7 @@ export default class ModalBody extends HTMLElement {
 
     const shadow = this.attachShadow({ mode: 'open' })
 
-    shadow.innerHTML = `<style>${ModalBody.css}</style>`;
+    shadow.innerHTML = `<style>${AppModalBody.css}</style>`;
 
   }
 
@@ -26,4 +22,4 @@ export default class ModalBody extends HTMLElement {
   }
 }
 
-customElements.define("modal-body", ModalBody)
+customElements.define("app-modal-body", AppModalBody)
