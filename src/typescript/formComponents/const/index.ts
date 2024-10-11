@@ -1,4 +1,4 @@
-export const PAGES_STRING ='[{ "page": "Container", "id": "card-1", "inputs": [] }]';
+export const PAGES_STRING = '[{ "page": "Container", "id": "card-1", "inputs": [] }]';
 
 export const REQUIRED_RADIOS = [
     {
@@ -27,5 +27,18 @@ export const POSITION_RADIOS = [
         value: "column",
         labelText: "column",
         id: "column",
+    }
+];
+
+export const MULTIPLE_RADIOS = [
+    {
+        value: "true",
+        labelText: "Yes",
+        id: "yes",
+    },
+    {
+        value: "false",
+        labelText: "No",
+        id: "no",
     }
 ];

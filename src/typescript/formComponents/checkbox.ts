@@ -1,12 +1,12 @@
-import modal from "../components/modal";
-import button from "../components/button";
-import { REQUIRED_RADIOS } from "../const/index";
-import removeElementForm from "../utils/removeElements";
-import storage from "../utils/saveAtLocalStorage";
-import smooth from "../utils/smoothWindow";
+
+import button from "./components/button";
+import modal from "./components/modal";
+import { REQUIRED_RADIOS } from "./const";
+import removeElementForm from "./utils/removeElements";
+import storage from "./utils/saveAtLocalStorage";
 
 const doc = document;
-const $ = (selector: string) => doc.querySelector(selector);
+const $ = (selector:string) => doc.querySelector(selector);
 
 let newLabel = "";
 let newCheckedRequired = "";
@@ -17,17 +17,16 @@ export default function checkbox() {
     const $checkbox = $("#checkbox");
     let incrementId = 0;
 
-    $checkbox?.addEventListener("click", (evt) => {
+    $checkbox.addEventListener("click", (evt) => {
         incrementId++;
         create(incrementId);
-        smooth()
     });
 }
 
 function bodyModal(target, { isCreate }) {
-    const $parentDiv = doc.createElement("app-modal-body");
-    const $radioButtonsRequired = doc.createElement("app-radio-buttons");
-    const $containerArea = doc.createElement("app-textarea");
+    const $parentDiv = doc.createElement("rain-modal-body");
+    const $radioButtonsRequired = doc.createElement("rain-radio-buttons-form");
+    const $containerArea = doc.createElement("rain-textarea-form");
 
     $radioButtonsRequired.setAttribute("label", "Required:");
     $radioButtonsRequired.id = "container-radios-required";
@@ -60,7 +59,7 @@ function bodyModal(target, { isCreate }) {
             isChecked: radio.value === newCheckedRequired,
         }));
 
-        $containerArea.setAttribute("new_value", `'${newLabel}'`,);
+        $containerArea.setAttribute("new_value", newLabel);
         $radioButtonsRequired.setAttribute(
             "radios",
             JSON.stringify(updatedRequiredRadios)
@@ -128,7 +127,7 @@ function create(incrementId) {
     $parentDiv.appendChild(buttonUpdate);
 
     const id = `checkbox-${incrementId}`;
-    const name = `checkbox-${incrementId}-'${newLabel}'`;
+    const name = `checkbox-${incrementId}-${newLabel}`;
 
     $containerCheck.id = id;
 
@@ -148,7 +147,7 @@ function create(incrementId) {
         object: "Checkbox",
         id,
         name,
-        label: `'${newLabel}'`,
+        label: newLabel,
         required: false,
     };
 
@@ -173,11 +172,11 @@ function update(parentElement, incrementId) {
 
     $paragraph.textContent = newLabel;
     $input.setAttribute("data-required", newCheckedRequired);
-    const name = `checkbox-${incrementId}-'${newLabel}'`;
+    const name = `checkbox-${incrementId}-${newLabel}`;
 
     const rest = {
         name,
-        label: `'${newLabel}'`,
+        label: newLabel,
         required: newCheckedRequired.trim() === "true" ? true : false,
     };
 

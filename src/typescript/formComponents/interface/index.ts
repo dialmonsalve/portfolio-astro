@@ -8,7 +8,7 @@ export interface Inputs {
   id: string;
   object: string;
   name: string;
-  label: string;
+  label: string ;
   required?: boolean;
   disposition?: string;
   options?: string[];

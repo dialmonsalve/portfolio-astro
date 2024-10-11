@@ -13,7 +13,7 @@ export default function inputComponent({name, type, label, id}: InputComponent){
   $ContainerInput.setAttribute("name", name);
   $ContainerInput.setAttribute("type", type);
   $ContainerInput.setAttribute("label", label);
-  $ContainerInput.setAttribute("input_id", name);
+  $ContainerInput.setAttribute("input-id", name);
   $ContainerInput.id = id;
 
   return $ContainerInput;

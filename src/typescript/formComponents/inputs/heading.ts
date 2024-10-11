@@ -11,8 +11,8 @@ import type { Page } from "../interface";
 const doc = document;
 const $ = (selector: string) => doc.querySelector(selector);
 
-let newValue:string = "";
-let newChecked:string = "";
+let newValue = "";
+let newChecked = "";
 
 const $containerCards = $(".container-forms");
 
@@ -50,7 +50,7 @@ const radioButtonsData = [
 ];
 
 export default function headings() {
-  const $headings = document.querySelector("#heading") as HTMLHeadingElement;
+  const $headings = document.querySelector("#heading") as HTMLHeadElement;
   let incrementId = 0;
 
   $headings.addEventListener("click", (evt) => {
@@ -58,7 +58,7 @@ export default function headings() {
 
     modal({
       title: "create title",
-      content: () => bodyModal(evt.target as HTMLDivElement, "create"),
+      content: () => bodyModal(evt.target  as HTMLDivElement, "create"),
       action: () => addElementForm(evt.target, incrementId),
     });
   });
@@ -67,27 +67,27 @@ export default function headings() {
 function update(evt: MouseEvent, $parentDiv: HTMLDivElement) {
   modal({
     title: "update title",
-    content: () => bodyModal(evt.target as HTMLDivElement, "update"),
+    content: () => bodyModal(evt.target  as HTMLDivElement, "update"),
     action: () => updateElementForm($parentDiv),
   });
 }
 
-function bodyModal(target: HTMLDivElement, type: 'create' | 'update') {
+function bodyModal(target:  HTMLDivElement, type: 'create' | 'update') {
   const $parentDiv = doc.createElement("app-modal-body");
   const $radioButtons = doc.createElement("app-radio-buttons");
   const $ContainerInput = inputComponent({
     name: "input-headings",
     type: "text",
     id: "container-input-headings",
-    label: "title"
-  });
+    label: "title",
+  }) as AppInput;
 
   $radioButtons.id = "container-radios-headings";
 
   if (type === "create") {
     $radioButtons.setAttribute("radios", JSON.stringify(radioButtonsData));
   } else {
-    const $parentInputs = target?.closest(".container-components") as HTMLDivElement;
+    const $parentInputs = target.closest(".container-components");
 
     if (!$parentInputs) return;
 
@@ -95,13 +95,13 @@ function bodyModal(target: HTMLDivElement, type: 'create' | 'update') {
 
     const newTitle = $headingElement?.textContent as string;
     const tagName = $headingElement?.tagName;
-
+    
     const updatedRadios = radioButtonsData.map((radio) => ({
       ...radio,
       isChecked: radio.value.toUpperCase() === tagName,
     }));
 
-    $ContainerInput.setAttribute("new_value", newTitle);
+    $ContainerInput.value = newTitle;
 
     $radioButtons.setAttribute("radios", JSON.stringify(updatedRadios));
   }
@@ -133,8 +133,8 @@ function addElementForm(target: EventTarget | null, incrementId: number) {
 
   const $lastChildren = $containerCards?.lastElementChild;
 
-  newChecked = $radioButtons.value;
-  newValue = $ContainerInput.value;
+  newChecked = $radioButtons?.value;
+  newValue = $ContainerInput?.value;
 
   if (newValue.trim() === "") return;
 
@@ -190,7 +190,7 @@ function addElementForm(target: EventTarget | null, incrementId: number) {
 }
 
 function updateElementForm(parentElement: HTMLDivElement) {
-  const $headingElement = parentElement.lastElementChild  as HTMLHeadElement;
+  const $headingElement = parentElement.lastElementChild as HTMLHeadElement;
 
   const $radioButtons = $("#container-radios-headings") as AppRadioButtons;
   const $ContainerInput = $("#container-input-headings") as AppInput;
@@ -202,7 +202,7 @@ function updateElementForm(parentElement: HTMLDivElement) {
   if (newValue === "") return;
 
   const id = $headingElement.id;
-  const name = $headingElement?.getAttribute("name") as string;
+  const name = $headingElement.getAttribute("name") as string;
 
   $headingElement?.remove();
 
@@ -231,11 +231,15 @@ function updateElementForm(parentElement: HTMLDivElement) {
     page.id === parentElement?.parentElement?.id
       ? {
         ...page,
-        inputs: page.inputs.map((input) => ({
-          ...input,
-          heading: newChecked,
-          label: newValue,
-        })),
+        inputs: page.inputs.map((input) =>
+          input.id === $heading.id
+            ? {
+              ...input,
+              heading: newChecked,
+              label: newValue,
+            }
+            : input
+        ),
       }
       : page
   );

@@ -1,4 +1,4 @@
-import button from "./components/button";
+import button from "../components/button";
 
 const parentCards: HTMLDivElement | null = document.querySelector('#container-cards');
 

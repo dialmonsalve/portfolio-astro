@@ -1,94 +1,109 @@
 export default class AppTextareaForm extends HTMLElement {
-    private label: string;
-    private name: string;
-    private input_class: string;
-    private input_id: string;
-    private _value: string;
-    private new_value: string;
-    private _change: boolean
-    constructor() {
-        super();
 
-        const shadow = this.attachShadow({ mode: "open" });
-        this.label = "";
-        this.name = "";
-        this.input_class = "";
-        this.input_id = "";
-        this._value = "";
-        this.new_value = "";
-        this._change = false
+  private root: ShadowRoot;
 
-        const link = document.createElement("LINK") as HTMLLinkElement;
-        link.rel = "stylesheet";
-        link.href = new URL("./styles/textarea.css", import.meta.url).href;
+  constructor() {
+    super();
+    this.root = this.attachShadow({ mode: "closed" });
 
-        shadow.appendChild(link);
+    const $textarea = document.createElement("TEXTAREA") as HTMLTextAreaElement;
+    const $label = document.createElement("LABEL") as HTMLLabelElement
+
+    const link = document.createElement("LINK") as HTMLLinkElement;
+    link.rel = "stylesheet";
+    link.href = new URL("./styles/textarea.css", import.meta.url).href;
+
+    this.root.appendChild(link);
+
+    this.root?.appendChild($label);
+    this.root?.appendChild($textarea);
+  }
+
+  static get observedAttributes() {
+    return [
+      "name",
+      "value",
+      "label",
+      "input-id",
+    ];
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    const $textarea = this.root?.querySelector('textarea') || document.createElement('textarea');
+    const $label = this.root?.querySelector('label') || document.createElement('label');
+
+    switch (name.toLocaleLowerCase()) {
+      case "label":
+        $label.textContent = newValue;
+        break;
+      case "name":
+        $textarea.setAttribute('name', newValue)
+        break;
+      case "input-id":
+        $textarea.id = newValue;
+        $label.htmlFor = newValue;
+        break;
+      case "value":
+        $textarea.value = newValue;
+        break;
+      default:
+        throw new Error(`Attribute ${name} doesn't exist`);
     }
+  }
 
-    connectedCallback() {
-        const textarea = document.createElement("TEXTAREA") as HTMLTextAreaElement;
-        const className = this.input_class === "" ? "textarea" : this.input_class;
-        textarea.name = this.name;
-        textarea.id = this.input_id;
-        textarea.value = this.new_value;
-        textarea.classList.add(className);
+  connectedCallback() {
+    const $textarea = this.root?.querySelector('textarea');
 
-        const label = document.createElement("LABEL") as HTMLLabelElement
-        label.htmlFor = this.input_id;
-        label.textContent = this.label;
-        label.classList.add("label");
+    $textarea?.addEventListener("change", (evt) => this.onChange(evt));
+  }
 
-        textarea.addEventListener("change", (evt) => this.onChange(evt));
+  get label() {
+    return this.getAttribute('label');
+  }
 
-        this.shadowRoot?.appendChild(label);
-        this.shadowRoot?.appendChild(textarea);
-    }
+  set label(value: string | null) {
+    typeof value === 'string' && this.setAttribute('label', value)
+  }
 
-    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-        switch (name) {
-            case "label":
-                this.label = newValue;
-                break;
-            case "name":
-                this.name = newValue;
-                break;
-            case "input_class":
-                this.input_class = newValue;
-                break;
-            case "input_id":
-                this.input_id = newValue;
-                break;
-            case "_value":
-                this._value = newValue;
-                break;
-            case "new_value":
-                this.new_value = newValue;
-                break;
-            default:
-                console.warn(`Atributo no reconocido: ${name}`);
-        }
-    }
+  get name() {
+    return this.getAttribute('change');
+  }
 
-    static get observedAttributes() {
-        return [
-            "name",
-            "_value",
-            "new_value",
-            "label",
-            "input_class",
-            "input_id",
-        ];
-    }
+  set name(value: string | null) {
+    typeof value === 'string' && this.setAttribute('name', value)
+  }
 
-    onChange(evt: Event) {
-        const target = evt.target as HTMLInputElement;
-        this._value = target.value;
-        this._change = true
-    }
+  get value() {
+    return this.getAttribute('value');
+  }
 
-    get value() {
-        return this._value;
-    }
+  set value(value: string | null) {
+    typeof value === 'string' && this.setAttribute('value', value)
+  }
+
+  get inputId() {
+    return this.getAttribute('input-id');
+  }
+
+  set inputId(value: string | null) {
+    typeof value === 'string' && this.setAttribute('input-id', value)
+  }
+
+  get change() {
+    return this.getAttribute('change');
+  }
+
+  set change(value: string | null) {
+    typeof value === 'string' && this.setAttribute('change', value)
+  }
+
+  onChange(evt: Event) {
+    const target = evt.target as HTMLInputElement;
+    this.value = target.value;
+    this.change = 'true'
+    console.log(target.value);
+
+  }
 }
 
-customElements.define("rain-textarea-form", AppTextareaForm);
+customElements.define("app-textarea", AppTextareaForm);

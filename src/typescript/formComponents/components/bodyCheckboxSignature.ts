@@ -8,9 +8,9 @@ export default function bodyModal(
     target: HTMLDivElement,
     { isCreate, newCheckedRequired, newLabel }: BodyModal
 ) {
-    const $parentDiv = doc.createElement("rain-modal-body");
-    const $radioButtonsRequired = doc.createElement("rain-radio-buttons-form");
-    const $containerArea = doc.createElement("rain-textarea-form");
+    const $parentDiv = doc.createElement("app-modal-body");
+    const $radioButtonsRequired = doc.createElement("app-radio-buttons");
+    const $containerArea = doc.createElement("app-textarea");
 
     $radioButtonsRequired.setAttribute("label", "Required:");
     $radioButtonsRequired.id = "container-radios-required";
