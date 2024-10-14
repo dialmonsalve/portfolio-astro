@@ -1,28 +1,28 @@
 ---
-import { getI18N } from "../../../i18n";
-import Menu from "../../Menu.astro";
-import "../../../styles/pages/create-inputs/inputsWithJs.css";
-import "../../../styles/components/modal.css";
-import "../../../styles/web-components/button.css";
+import { getI18N } from '../../../i18n'
+import Menu from '../../Menu.astro'
+import '../../../styles/pages/create-inputs/inputsWithJs.css'
+import '../../../styles/components/modal.css'
+import '../../../styles/web-components/button.css'
 
-const { currentLocale } = Astro;
-const i18n = getI18N({ currentLocale });
+const { currentLocale } = Astro
+const i18n = getI18N({ currentLocale })
 ---
 
 <section class="section-forms" id="section-forms">
   <Menu />
-  <style ></style>
+  <style></style>
 
   <h1 transition:name="web-components">
     {i18n.PROJECTS.INTERNAL_PROJECTS[0].TITLE}
   </h1>
 
   <article class="container-forms" id="container-cards">
-    <div class="container-card-form card" id="card-1" >
-      <button class="card__button-add" id="button-add-page">add page<span class="button-square-add"></span>
+    <div class="container-card-form card" id="card-1">
+      <button class="card__button-add" id="button-add-page"
+        >add page<span class="button-square-add"></span>
       </button>
     </div>
   </article>
-
 </section>
-<script src="../../../typescript/formComponents/app.ts"></script>
+<script src="../../../typescript/forms/create/app.ts"></script>
