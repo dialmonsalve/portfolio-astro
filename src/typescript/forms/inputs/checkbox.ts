@@ -1,5 +1,5 @@
 import modal from "../components/modal";
-import button from "../components/button";
+import Button from "../components/Button";
 
 import removeElementForm from "../utils/removeElements";
 import storage from "../utils/saveAtLocalStorage";
@@ -7,43 +7,42 @@ import storage from "../utils/saveAtLocalStorage";
 import { REQUIRED_RADIOS } from "../const";
 
 import type { AppRadioButtons, AppInput } from "../webComponents";
+import { $, element } from "../utils/utilities";
 
 const doc = document;
-const $ = (selector: string) => doc.querySelector(selector);
 
+const { create } = element
 let newLabel = "";
 let newCheckedRequired = "";
 
 const $containerCards = $(".container-forms");
-export function create(incrementId: number) {
-    const $parentDiv = doc.createElement("DIV");
-    const $containerCheck = doc.createElement("DIV");
-    const $input = doc.createElement("INPUT") as HTMLInputElement;
-    const $paragraph = doc.createElement("P");
+
+export function addToDOM(incrementId: number) {
+    const $parentDiv = create("div");
+    const $containerCheck = create("div");
+    const $input =create("input") ;
+    const $paragraph = create("p");
 
     const buttonIdUpdate = `checkbox-update-${incrementId}`;
     const buttonIdRemove = `checkbox-remove-${incrementId}`;
     const containerId = `card-checkbox-${incrementId}`;
 
-    const buttonUpdate = button(
-        {
-            id: buttonIdUpdate,
-            text: "",
-            spanClass: "button-square-update",
-            buttonClass: "inputs-btn-update",
-        },
-        (evt) => configure(evt.target as HTMLButtonElement, incrementId)
-    );
+    const buttonUpdate = new Button({
+        buttonId: buttonIdUpdate,
+        text: "",
+        spanClass: "button-square-update",
+        buttonClass: "inputs-btn-update",
+    });
 
-    const buttonDelete = button(
-        {
-            id: buttonIdRemove,
-            text: "",
-            spanClass: "button-square-remove",
-            buttonClass: "inputs-btn-delete",
-        },
-        removeElementForm
-    );
+    const buttonDelete = new Button({
+        buttonId: buttonIdRemove,
+        text: "",
+        spanClass: "button-square-remove",
+        buttonClass: "inputs-btn-delete",
+    },);
+
+    buttonUpdate.action((evt) => configure(evt.target as HTMLButtonElement, incrementId))
+    buttonDelete.action(removeElementForm)
 
     const $lastChildren = $containerCards?.lastElementChild as HTMLDivElement;
 
@@ -58,8 +57,8 @@ export function create(incrementId: number) {
     $paragraph.classList.add("container-check__label");
     $paragraph.textContent = newLabel;
 
-    $parentDiv.appendChild(buttonDelete);
-    $parentDiv.appendChild(buttonUpdate);
+    $parentDiv.appendChild(buttonDelete.create);
+    $parentDiv.appendChild(buttonUpdate.create);
 
     const id = `checkbox-${incrementId}`;
     const name = `checkbox-${incrementId}-'${newLabel}'`;

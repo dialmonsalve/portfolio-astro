@@ -1,21 +1,16 @@
 import storage from "./saveAtLocalStorage";
 
-import button from "../components/button";
+import button from "../components/Button";
 import addPage from "./addPage";
 import { PAGES_STRING } from "../const";
 import type { Page } from "../interface";
+import { $ } from "./utilities";
 
-const doc = document;
-const $ = (selector: string) => doc.querySelector(selector);
 const $containerForms = $("#container-forms");
 
-export default function removePage(evt: MouseEvent, incrementId: number) {
-    const target = evt.target as HTMLButtonElement;
+export default function removePage(target: HTMLButtonElement, incrementId: number) {
 
     const parentDiv = target.closest(".container-card-form.card");
-
-    console.log(target);
-
 
     const buttonAdd = button(
         {
@@ -24,7 +19,7 @@ export default function removePage(evt: MouseEvent, incrementId: number) {
             spanClass: "button-square-plus",
             buttonClass: "card__button-add-page",
         },
-        (evt) => addPage(evt, incrementId)
+        (evt) => addPage(evt.target as HTMLButtonElement, incrementId)
     );
 
     if (!parentDiv) return;

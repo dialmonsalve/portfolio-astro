@@ -40,6 +40,7 @@
   padding: 0.5rem;
   border: thin solid #8080802c;
   border-radius: 5px;
+  width: 100%;
 }
 
 .container-components__image {

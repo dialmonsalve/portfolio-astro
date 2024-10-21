@@ -14,6 +14,9 @@ interface Modal {
 
 export default function modal({ title, content, type = "green", action }: Modal) {
   const body = document.querySelector("body");
+  const $modalExists = document.querySelector(".modal.show-modal");
+
+  if ($modalExists) return;
 
   const $modal = document.createElement("div");
   $modal.classList.add("modal", "show-modal");

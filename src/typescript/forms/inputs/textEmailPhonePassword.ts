@@ -1,5 +1,5 @@
 import inputComponent from "../components/inputComponent";
-import button from "../components/button";
+import button from "../components/Button";
 
 import modal from "../components/modal";
 import { REQUIRED_RADIOS, POSITION_RADIOS } from "../const/index";
@@ -21,8 +21,8 @@ interface Create {
 type TypeInput = "text" | "email" | "phone" | "password"
 
 export function create(incrementId: number, { object, type }: Create) {
-    const $parentDiv = document.createElement("DIV");
-    const $parentInput = document.createElement("DIV");
+    const $parentDiv = document.createElement("div");
+    const $parentInput = document.createElement("div");
     const isPassword = object === "Password" ? "password" : type;
     const containerId = `card-${isPassword}-${incrementId}`;
     const buttonIdRemove = `${isPassword}-remove-${incrementId}`;
@@ -58,8 +58,8 @@ export function create(incrementId: number, { object, type }: Create) {
     $parentInput.classList.add(`container-control-row`);
     $parentInput.setAttribute("disposition", "row");
 
-    const $label = doc.createElement("LABEL") as HTMLLabelElement;
-    const $input = doc.createElement("INPUT") as HTMLInputElement;
+    const $label = doc.createElement("label") ;
+    const $input = doc.createElement("input") ;
 
     const id = `${isPassword}-${incrementId}`;
     const name = `${isPassword}-${incrementId}-${newLabel}`;

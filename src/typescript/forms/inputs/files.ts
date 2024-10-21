@@ -1,5 +1,5 @@
 import modal from "../components/modal";
-import button from "../components/button";
+import button from "../components/Button";
 import inputComponent from "../components/inputComponent";
 
 import removeElementForm from "../utils/removeElements";
@@ -40,11 +40,11 @@ const $ = (selector: string) => doc.querySelector(selector);
 const $containerCards = $(".container-forms");
 
 const elementsCheck = (elementChecked: string | null | undefined) => {
-    const $parentCheckbox = doc.createElement("DIV");
+    const $parentCheckbox = doc.createElement("div");
     $parentCheckbox.classList.add("container-modal-checkbox");
 
     checkboxFormats.map((check) => {
-        const $containerCheck = document.createElement("DIV");
+        const $containerCheck = document.createElement("div");
 
         $containerCheck.className = "form-check form-switch";
 
@@ -52,8 +52,8 @@ const elementsCheck = (elementChecked: string | null | undefined) => {
             ? true
             : false;
 
-        const $paragraph = document.createElement("P");
-        const $input = document.createElement("INPUT") as HTMLInputElement;
+        const $paragraph = document.createElement("p");
+        const $input = document.createElement("input");
 
         $input.className = "form-check-input accept";
         $input.type = "checkbox";
@@ -73,15 +73,15 @@ const elementsCheck = (elementChecked: string | null | undefined) => {
 };
 
 export function create(incrementId: number) {
-    const $parentDiv = document.createElement("DIV");
-    const $parentImage = document.createElement("DIV");
-    const $paragraph = document.createElement("P");
-    const $containerVoucher = document.createElement("DIV");
-    const $label = document.createElement("LABEL") as HTMLLabelElement;
-    const $labelImage = document.createElement("SPAN");
-    const $image = doc.createElement("IMG") as HTMLImageElement;
-    const $input = doc.createElement("INPUT") as HTMLInputElement;
-    const $containerNameFiles = document.createElement("DIV");
+    const $parentDiv = document.createElement("div");
+    const $parentImage = document.createElement("div");
+    const $paragraph = document.createElement("p");
+    const $containerVoucher = document.createElement("div");
+    const $label = document.createElement("label");
+    const $labelImage = document.createElement("span");
+    const $image = doc.createElement("img") as HTMLImageElement;
+    const $input = doc.createElement("input") as HTMLInputElement;
+    const $containerNameFiles = document.createElement("div");
     const $lastChildren = $containerCards?.lastElementChild as HTMLDivElement;
 
     const buttonIdUpdate = `files-update-${incrementId}`;
@@ -109,7 +109,7 @@ export function create(incrementId: number) {
     $labelImage.classList.add("voucher");
 
     $image.classList.add("voucher-img");
-    $image.src = "/icons/upload.svg";
+    $image.src = "/img/upload.svg";
     $image.alt = "voucher upload";
 
     $input.classList.add("voucher-input");

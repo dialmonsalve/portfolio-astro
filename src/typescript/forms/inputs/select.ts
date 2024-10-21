@@ -1,5 +1,5 @@
 import modal from "../components/modal";
-import button from "../components/button";
+import button from "../components/Button";
 import bodyModal from "../components/bodySelectRadio";
 
 import removeElementForm from "../utils/removeElements";
@@ -14,10 +14,10 @@ let newOptions = "";
 const $containerCards = $(".container-forms");
 
 export function create(incrementId: number) {
-    const $parentDiv = doc.createElement("DIV");
-    const $parentInput = document.createElement("DIV");
-    const $select = doc.createElement("SELECT");
-    const $paragraph = doc.createElement("P");
+    const $parentDiv = doc.createElement("div");
+    const $parentInput = document.createElement("div");
+    const $select = doc.createElement("select");
+    const $paragraph = doc.createElement("p");
 
     const buttonIdUpdate = `select-update-${incrementId}`;
     const buttonIdRemove = `select-remove-${incrementId}`;
@@ -67,7 +67,7 @@ export function create(incrementId: number) {
     $select.setAttribute("name", name);
     $select.setAttribute("data-required", "false");
 
-    const $option = doc.createElement("OPTION") as HTMLOptionElement;
+    const $option = doc.createElement("option");
     $option.value = "";
     $option.setAttribute("checked", "checked");
 
@@ -153,7 +153,7 @@ function update(target: HTMLButtonElement, incrementId: number) {
 
     const name = `select-${incrementId}-'${newLabel}'`;
 
-    const $option = doc.createElement("OPTION") as HTMLOptionElement;
+    const $option = doc.createElement("option");
     $option.value = "";
     $option.setAttribute("checked", "checked");
 
@@ -164,7 +164,7 @@ function update(target: HTMLButtonElement, incrementId: number) {
     const optionsLabel = newOptions.split("\n");
 
     optionsLabel.forEach((elem, idx) => {
-        const $option = doc.createElement("OPTION") as HTMLOptionElement;
+        const $option = doc.createElement("option");
         $option.setAttribute("name", `option-${idx + 1}`);
         $option.id = `option-${idx + 1}`;
         $option.value = elem;

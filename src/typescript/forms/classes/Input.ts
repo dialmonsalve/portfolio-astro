@@ -1,324 +1,336 @@
-import button from "../components/button";
-import inputComponent from "../components/inputComponent";
-import modal from "../components/modal";
-import { PAGES_STRING, POSITION_RADIOS, REQUIRED_RADIOS } from "../const";
-import type { Page } from "../interface";
-import saveAtLocalStorage from "../utils/saveAtLocalStorage";
+import { $, element } from "../utils/utilities";
+
+import type Button from "../components/Button";
+import type { Storage } from "../interface/storage";
 import type { AppInput, AppRadioButtons } from "../webComponents";
+import type { IptComponent } from "../components/inputComponent";
 
-const $ = (selector: string) => document.querySelector(selector)
-const $containerCards = $(".container-forms");
+interface OptionsCreate {
+  incrementId: number
+  object: "Text" | "Email" | "Phone" | "Password";
+  type: TypeInput
+}
+interface OptionsUpdate {
+  target: HTMLButtonElement;
+  incrementId: number;
+  type?: TypeInput
+}
 
-const UnifiedInputs = {
-  "text": { key: "text", value: "Text" },
-  "number": { key: "number", value: "Number" },
-  "email": { key: "email", value: "Email" },
-  "date": { key: "date", value: "Date" },
-  "time": { key: "time", value: "DateTime" },
-  "password": { key: "password", value: "Password" },
-  "phone": { key: "phone", value: "Phone" }
+interface UpdateButton {
+  isPassword: string;
+  incrementId: number;
+  type?: TypeInput
+}
+
+interface Modal {
+  title: string;
+  type?: keyof typeof Color;
+  content?: () => HTMLElement | undefined;
+  action?: (e: MouseEvent) => void;
+}
+
+interface RequiredRadios {
+  name: "text-required";
+  value: "true" | "false";
+  labelText: "Yes" | "No";
+  id: "yes" | "no";
+}
+
+
+
+interface PositionRadios {
+  name: "text-position",
+  value: "row" | "column",
+  labelText: "row" | 'column',
+  id: "row",
+}
+
+
+export const MULTIPLE_RADIOS = [
+  {
+    value: "true",
+    labelText: "Yes",
+    id: "yes",
+  },
+  {
+    value: "false",
+    labelText: "No",
+    id: "no",
+  }
+];
+
+const Color = {
+  yellow: "yellow",
+  green: "green",
+  purple: "purple",
+  red: "red",
 } as const;
 
-type ObjKeys = keyof typeof UnifiedInputs;
-type ObjValues = typeof UnifiedInputs[ObjKeys]["value"];
+type TypeInput = "text" | "email" | "phone" | "password" | "date" | "date-time" | "number"
 
-interface Props {
-  target: HTMLInputElement
-  type: ObjKeys;
-  incrementId: number;
-}
+const $containerCards = $(".container-forms");
+const { create } = element
+
 export default class Input {
 
-  private type: ObjKeys
-  private target: HTMLInputElement;
-  private incrementId: number;
+  private button: typeof Button;
+  private  $inputComponent: typeof IptComponent;
+  private removeElementForm: (evt: MouseEvent) => void;
+  private storage: Storage;
+  private modal: (opts: Modal) => void;
+  private REQUIRED_RADIOS: RequiredRadios[];
+  private POSITION_RADIOS: PositionRadios[];
 
-  constructor({ type, incrementId, target }: Props,) {
-    this.type = type
-    this.incrementId = incrementId
-    this.target = target;
+  constructor(
+    button: typeof Button,
+    $inputComponent: typeof IptComponent,
+    storage: Storage,
+    removeElementForm: (evt: MouseEvent) => void,
+    modal: (opts: Modal) => void,
+    REQUIRED_RADIOS: RequiredRadios[],
+    POSITION_RADIOS: PositionRadios[]
+  ) {
+
+    this.button = button;
+    this.removeElementForm = removeElementForm;
+    this.storage = storage
+    this.modal = modal
+    this.REQUIRED_RADIOS = REQUIRED_RADIOS;
+    this.POSITION_RADIOS = POSITION_RADIOS;
+    this.$inputComponent = $inputComponent
   }
 
-  create = (object: ObjValues) => {
+  updateButton = ({ isPassword, incrementId, type }: UpdateButton) => {
+    const buttonId = `${isPassword}-update-${incrementId}`;
+    const text = "";
+    const spanClass = "button-square-update";
+    const buttonClass = "inputs-btn-update";
+    const newButton = new this.button({ text, spanClass, buttonClass, buttonId })
+    newButton.action(evt => this.modal({
+      title: `update input ${type}`,
+      content: () => this.bodyModal(evt.target as HTMLButtonElement, { type }),
+      action: () => this.update({ target: evt.target as HTMLButtonElement, incrementId, type }),
+    }))
+    return newButton.create
+  }
 
-    const $ContainerInputLabel = $("#container-input-label") as AppInput;
-    const $ContainerInputPlaceholder = $("#container-input-placeholder") as AppInput;
-    const $radioButtonsRequired = $("#container-radios-required") as AppRadioButtons;
-    const $radioButtonsPosition = $("#container-radios-position") as AppRadioButtons;
-    const $parentDiv = document.createElement("DIV");
+  deleteButton = ({ isPassword, incrementId }: UpdateButton) => {
+    const buttonId = `${isPassword}-remove-${incrementId}`;
+    const text = "";
+    const spanClass = "button-square-remove";
+    const buttonClass = "inputs-btn-delete";
 
-    const buttonUpdate = button({
-      id: `heading-update-${this.incrementId}`,
-      text: "",
-      spanClass: "button-square-update",
-      buttonClass: "inputs-btn-update",
-    }, (evt) => this.showPopUp(evt, this.incrementId, this.type,))
+    const newButton = new this.button({ text, spanClass, buttonClass, buttonId })
+    newButton.action(this.removeElementForm)
+    return newButton.create
+  }
 
-    const buttonDelete = button({
-      id: `heading-remove-${this.incrementId}`,
-      text: "",
-      spanClass: "button-square-remove",
-      buttonClass: "inputs-btn-delete",
-    }, this.remove);
+  create = ({ incrementId, object, type }: OptionsCreate) => {
 
-    const $lastChildren = $containerCards?.lastElementChild;
+    const $parentDiv = create("div");
+    const $parentInput = create("div");
+    const isPassword = object === "Password" ? "password" : type;
+    const containerId = `card-${isPassword}-${incrementId}`;
+    const buttonIdRemove = `${isPassword}-remove-${incrementId}`;
+    const buttonIdUpdate = `${isPassword}-update-${incrementId}`;
 
-    const newLabel = $ContainerInputLabel.value;
-    const newPlaceholder = $ContainerInputPlaceholder.value;
+    const buttonUpdate = this.updateButton({ incrementId, isPassword, type })
+    const buttonDelete = this.deleteButton({ incrementId, isPassword });
 
-    const newCheckedRequired =
-      $radioButtonsRequired.value === ""
-        ? "false"
-        : $radioButtonsRequired.value;
+    const $lastChildren = $containerCards?.lastElementChild as HTMLDivElement;
 
-    const newCheckedPosition =
-      $radioButtonsPosition.value === ""
-        ? "row"
-        : $radioButtonsPosition.value;
+    const newLabel = "edit text";
 
-    if (newLabel.trim() === "") return;
+    $parentDiv.className = "container-components isDraggable";
+    $parentDiv.id = containerId;
 
-    $parentDiv.classList.add("container-components");
-    $parentDiv.classList.add(`container-control-${newCheckedPosition}`);
-    $parentDiv.id = `card-input-${this.incrementId}`;
+    $parentInput.classList.add(`container-control-row`);
+    $parentInput.setAttribute("disposition", "row");
 
-    const $label = document.createElement("LABEL") as HTMLLabelElement;
-    const $input = document.createElement("INPUT") as HTMLInputElement;
+    const $label = create("label");
+    const $input = create("input");
 
-    const id = `${this.type}-${this.incrementId}`;
-    const name = `${this.type}-${this.incrementId}-${newLabel}`;
+    const id = `${isPassword}-${incrementId}`;
+    const name = `${isPassword}-${incrementId}-${newLabel}`;
 
     $label.classList.add("container-control__label");
     $label.htmlFor = id;
     $label.textContent = newLabel;
-    $label.setAttribute("disposition", newCheckedPosition);
 
-    $input.type = this.type;
+    $input.type = isPassword;
     $input.setAttribute("name", name);
     $input.id = id;
     $input.classList.add("container-control__input-text");
     $input.setAttribute("autocomplete", "on");
-    $input.setAttribute("placeholder", newPlaceholder);
-    $input.setAttribute("data-required", newCheckedRequired);
+    $input.setAttribute("data-required", "false");
+
+    $parentInput.appendChild($label);
+    $parentInput.appendChild($input);
 
     $parentDiv.appendChild(buttonDelete);
     $parentDiv.appendChild(buttonUpdate);
-    $parentDiv?.appendChild($label);
-    $parentDiv?.appendChild($input);
+    $parentDiv?.appendChild($parentInput);
     $lastChildren?.appendChild($parentDiv);
 
-    const pages = JSON.parse(localStorage.getItem("pages") || PAGES_STRING) as Page[];
-
     const updateInputs = {
-      object,
+      buttonIdRemove,
+      buttonIdUpdate,
+      containerId,
+      disposition: "row" as "row",
       id,
-      name,
       label: newLabel,
-      disposition: newCheckedPosition,
-      placeholder: newPlaceholder.trim() !== "" ? newPlaceholder : null,
-      required: newCheckedRequired === "true" ? true : false,
+      name,
+      object,
+      placeholder: null,
+      required: false,
     };
 
-    const updatedPages = pages.map((page) => {
-      if (page.id === $lastChildren?.getAttribute("id")) {
-        return {
-          ...page,
-          inputs: [...page.inputs, updateInputs],
-        };
-      }
-      return page;
-    });
-
-    saveAtLocalStorage(updatedPages);
-
+    this.storage.create($lastChildren, updateInputs);
   }
 
-  update = () => {
-    const parentElement = this.target.closest(".container-components") as HTMLDivElement;
-    const $label = parentElement?.querySelector("label") as HTMLLabelElement;
-    const $input = parentElement?.querySelector("input") as HTMLInputElement;
+  update = ({ target, incrementId, type }: OptionsUpdate) => {
+    const $parentContainer = target.closest(".container-components");
+    const $parentInputs = $parentContainer?.lastElementChild as HTMLDivElement;
+    const $label = $parentInputs.querySelector("label") as HTMLLabelElement;
+    const $input = $parentInputs.querySelector("input") as HTMLInputElement;
 
-    const $ContainerInputLabel = $("#container-input-label") as AppInput;
-    const $ContainerInputPlaceholder = $("#container-input-placeholder") as AppInput;
+    let labelText = "";
+
+    $label.childNodes.forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        labelText += node.textContent;
+      }
+    });
+
+    const oldLabel = labelText;
+
     const $radioButtonsRequired = $("#container-radios-required") as AppRadioButtons;
     const $radioButtonsPosition = $("#container-radios-position") as AppRadioButtons;
+    const $ContainerInputLabel = $("#container-input-label") as AppInput;
+    const $ContainerInputPlaceholder = $("#container-input-placeholder") as AppInput;
 
     const isPlaceholderChanged = $ContainerInputPlaceholder.change;
-    const isRequiredChanged = $radioButtonsRequired?.change;
-    const isDispositionChanged = $radioButtonsPosition?.change;
+    const isRequiredChanged = $radioButtonsRequired.change;
+    const isDispositionChanged = $radioButtonsPosition.change;
 
-    const newLabel =
-      $ContainerInputLabel.change
-        ? $ContainerInputLabel.value
-        : $label.textContent;
+    const newLabel = $ContainerInputLabel.change
+      ? $ContainerInputLabel.value
+      : oldLabel;
 
     const newPlaceholder = isPlaceholderChanged
       ? $ContainerInputPlaceholder.value
-      : $input?.getAttribute("placeholder") || '';
+      : $input.getAttribute("placeholder") || "";
 
     const newCheckedRequired = isRequiredChanged
       ? $radioButtonsRequired.value
-      : $input?.getAttribute("data-required") || '';
+      : $input.getAttribute("data-required") || 'false';
 
     const newCheckedPosition = isDispositionChanged
       ? $radioButtonsPosition.value
-      : $label?.getAttribute("disposition") || '';
+      : $parentInputs.getAttribute("disposition") || 'row';
 
-    if (newLabel === "" || !newLabel) return;
+    if (newLabel === "") return;
 
-    parentElement.className = "";
-    parentElement.classList.add("container-components");
-    parentElement.classList.add(`container-control-${newCheckedPosition}`);
+    $parentInputs.className = "";
+    $parentInputs.classList.add(`container-control-${newCheckedPosition}`);
+    $parentInputs.setAttribute("disposition", newCheckedPosition);
 
     $label.textContent = newLabel;
-    $label.setAttribute("disposition", newCheckedPosition);
-    const name = `${this.type}-${this.incrementId}-${newLabel}`;
+    const name = `${type}-${incrementId}-${newLabel}`;
     $input.setAttribute("placeholder", newPlaceholder);
     $input.setAttribute("data-required", newCheckedRequired);
     $input.setAttribute("name", name);
 
-    const pages = JSON.parse(localStorage.getItem("pages") || PAGES_STRING) as Page[];
+    const rest = {
+      disposition: newCheckedPosition,
+      name,
+      label: `'${newLabel}'`,
+      placeholder:
+        newPlaceholder.trim() !== "" ? `'${newPlaceholder}'` : null,
+      required: newCheckedRequired.trim() === "true" ? true : false,
+    };
 
-    const updatedPages = pages.map((page) =>
-      page.id === parentElement?.parentElement?.id
-        ? {
-          ...page,
-          inputs: page.inputs.map((input) =>
-            input.id === $input.id
-              ? {
-                ...input,
-                disposition: newCheckedPosition,
-                name,
-                label: newLabel,
-                placeholder:
-                  newPlaceholder.trim() !== ""
-                    ? newPlaceholder
-                    : null,
-                required:
-                  newCheckedRequired.trim() === "true"
-                    ? true
-                    : false,
-              }
-              : input
-          ),
-        }
-        : page
-    );
-    saveAtLocalStorage(updatedPages);
+    this.storage.update(target, rest);
   }
 
-  remove = (evt: Event) => {
-
-    const target = evt.target as HTMLButtonElement;
-    const parentDiv = target.closest(".container-components");
-    const $lastChildren = parentDiv?.lastElementChild;
-
-    if (!parentDiv) return;
-
-    const pages = JSON.parse(localStorage.getItem("pages") || PAGES_STRING) as Page[];
-
-    const removeInput = pages.map((page) =>
-      page.id === parentDiv?.parentElement?.id
-        ? {
-          ...page,
-          inputs: page.inputs.filter(
-            (input) => input.id !== $lastChildren?.id
-          ),
-        }
-        : page
-    );
-
-    saveAtLocalStorage(removeInput);
-
-    parentDiv.remove();
-  }
-
-  showPopUp = () => {
-    modal({
-      title: "update input text",
-      content: () => this.bodyModal(this.target, {  isCreate: false }),
-      action: this.update,
-    });
-  }
-
-  bodyModal = (target, {  isCreate }) => {
-    const $parentDiv = document.createElement("rain-modal-body");
-    const $radioButtonsRequired = document.createElement("rain-radio-buttons-form");
-    const $radioButtonsPosition = document.createElement("rain-radio-buttons-form");
+  bodyModal = (target: HTMLButtonElement, { type }: { type?: TypeInput }) => {
+    const $parentDiv = document.createElement("app-modal-body");
+    const $radioButtonsRequired = document.createElement("app-radio-buttons");
+    const $radioButtonsPosition = document.createElement("app-radio-buttons");
 
     $radioButtonsRequired.setAttribute("label", "Required:");
-    $radioButtonsPosition.setAttribute('name', 'inputs-position');
+    $radioButtonsPosition.setAttribute("name", "inputs-position");
     $radioButtonsRequired.id = "container-radios-required";
 
     $radioButtonsPosition.setAttribute("label", "Position:");
-    $radioButtonsRequired.setAttribute('name', 'inputs-required');
+    $radioButtonsRequired.setAttribute("name", "inputs-required");
     $radioButtonsPosition.id = "container-radios-position";
 
-
-    const $ContainerInputLabel = inputComponent({
+    const $ContainerInputLabel = new this.$inputComponent({
       name: "input-label",
-      type: this.type,
+      type,
       label: "Label",
       id: `container-input-label`,
     });
 
-    const $ContainerInputPlaceholder = inputComponent({
+    const $ContainerInputPlaceholder = new this.$inputComponent({
       name: "input-placeholder",
-      type: this.type,
+      type,
       label: "Placeholder",
       id: "container-input-placeholder",
     });
 
-    if (isCreate) {
-      $radioButtonsRequired.setAttribute(
-        "radios",
-        JSON.stringify(REQUIRED_RADIOS)
-      );
-      $radioButtonsPosition.setAttribute(
-        "radios",
-        JSON.stringify(POSITION_RADIOS)
-      );
-    } else {
-      const $parentInputs = target?.closest(".container-components");
+    const $parentContainer = target.closest(".container-components");
 
-      const $label = $parentInputs?.querySelector("label");
-      const $input = $parentInputs?.querySelector("input");
+    const $parentInputs = $parentContainer?.lastElementChild as HTMLDivElement;
 
-      const newLabel = $label?.textContent || '';
-      const newCheckedPosition = $label?.getAttribute("disposition");
+    if (!$parentInputs) return;
 
-      const newPlaceholder = $input?.getAttribute("placeholder") || '';
-      const newCheckedRequired = $input?.getAttribute("data-required");
+    const $label = $parentInputs.querySelector("label");
+    const $input = $parentInputs.querySelector("input");
 
-      if (!$parentInputs) return;
+    let labelText = "";
 
-      const updatedRequiredRadios = REQUIRED_RADIOS.map((radio) => ({
-        ...radio,
-        isChecked: radio.value === newCheckedRequired,
-      }));
+    $label?.childNodes.forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        labelText += node.textContent;
+      }
+    });
 
-      const updatedPositionRadios = POSITION_RADIOS.map((radio) => ({
-        ...radio,
-        isChecked: radio.value === newCheckedPosition,
-      }));
+    const newLabel = labelText;
+    const newCheckedPosition = $parentInputs.getAttribute("disposition");
 
-      $ContainerInputLabel.setAttribute("new_value", newLabel);
-      $ContainerInputPlaceholder.setAttribute("new_value", newPlaceholder);
-      $radioButtonsRequired.setAttribute(
-        "radios",
-        JSON.stringify(updatedRequiredRadios)
-      );
-      $radioButtonsPosition.setAttribute(
-        "radios",
-        JSON.stringify(updatedPositionRadios)
-      );
-    }
+    const newPlaceholder = $input?.getAttribute("placeholder") || "";
+    const newCheckedRequired = $input?.getAttribute("data-required");
 
-    $parentDiv.appendChild($ContainerInputLabel);
-    $parentDiv.appendChild($ContainerInputPlaceholder);
+    const updatedRequiredRadios = this.REQUIRED_RADIOS.map((radio) => ({
+      ...radio,
+      isChecked: radio.value === newCheckedRequired,
+    }));
+
+    const updatedPositionRadios = this.POSITION_RADIOS.map((radio) => ({
+      ...radio,
+      isChecked: radio.value === newCheckedPosition,
+    }));
+
+    $ContainerInputLabel.create.setAttribute("new_value", newLabel);
+    $ContainerInputPlaceholder.create.setAttribute("new_value", newPlaceholder);
+    $radioButtonsRequired.setAttribute(
+      "radios",
+      JSON.stringify(updatedRequiredRadios)
+    );
+    $radioButtonsPosition.setAttribute(
+      "radios",
+      JSON.stringify(updatedPositionRadios)
+    );
+
+    $parentDiv.appendChild($ContainerInputLabel.create);
+    $parentDiv.appendChild($ContainerInputPlaceholder.create);
     $parentDiv.appendChild($radioButtonsRequired);
     $parentDiv.appendChild($radioButtonsPosition);
 
     return $parentDiv;
   }
 }
+
+

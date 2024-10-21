@@ -1,5 +1,5 @@
 import modal from "../components/modal";
-import button from "../components/button";
+import button from "../components/Button";
 
 import removeElementForm from "../utils/removeElements";
 import storage from "../utils/saveAtLocalStorage";
@@ -25,9 +25,9 @@ export default function signature() {
 }
 
 export function create(incrementId: number) {
-    const $parentDiv = doc.createElement("DIV");
+    const $parentDiv = doc.createElement("div");
     const $signature = doc.createElement("app-signature");
-    const $containerSignature = doc.createElement("DIV");
+    const $containerSignature = doc.createElement("div");
 
     const buttonIdUpdate = `signature-update-${incrementId}`;
     const buttonIdRemove = `signature-remove-${incrementId}`;

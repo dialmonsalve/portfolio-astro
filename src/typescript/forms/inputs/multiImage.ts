@@ -2,7 +2,7 @@
 
 import modal from "../components/modal";
 import bodyModal from "../components/bodyImage";
-import button from "../components/button";
+import button from "../components/Button";
 
 import storage from "../utils/saveAtLocalStorage";
 import removeElementForm from "../utils/removeElements";
@@ -14,20 +14,20 @@ const $containerCards = $(".container-forms");
 
 
 export function create(incrementId: number) {
-    const $parentDiv = doc.createElement("DIV");
-    const $parentImages = doc.createElement("DIV");
+    const $parentDiv = doc.createElement("div");
+    const $parentImages = doc.createElement("div");
 
     const newLabel = "Edit Description";
 
     const id = `multi-image-${incrementId}`;
     const name = `multi-image-${incrementId}-'${newLabel}'`;
 
-    const $containerImages = doc.createElement("DIV");
-    const $label = doc.createElement("LABEL") as HTMLLabelElement;
-    const $input = doc.createElement("INPUT") as HTMLInputElement;
-    const $span = doc.createElement("SPAN");
-    const $spanBody = doc.createElement("SPAN");
-    const $spanIcon = doc.createElement("I");
+    const $containerImages = doc.createElement("div");
+    const $label = doc.createElement("label");
+    const $input = doc.createElement("input");
+    const $span = doc.createElement("span");
+    const $spanBody = doc.createElement("span");
+    const $spanIcon = doc.createElement("i");
 
     const buttonIdUpdate = `multi-image-update-${incrementId}`;
     const buttonIdRemove = `multi-image-remove-${incrementId}`;

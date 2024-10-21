@@ -1,5 +1,5 @@
 import modal from "../components/modal";
-import button from "../components/button";
+import button from "../components/Button";
 import inputComponent from "../components/inputComponent";
 
 import storage from "../utils/saveAtLocalStorage";
@@ -23,8 +23,8 @@ type InputType = 'date' | 'time' | 'textarea'
 type Input = 'TEXTAREA' | 'INPUT'
 
 export function create(incrementId: number, { object, type, input }: Options) {
-    const $parentDiv = document.createElement("DIV");
-    const $parentInput = document.createElement("DIV");
+    const $parentDiv = document.createElement("div");
+    const $parentInput = document.createElement("div");
     const isTextarea = input === "TEXTAREA" ? "textarea" : type;
 
     const buttonIdRemove = `${isTextarea}-remove-${incrementId}`;

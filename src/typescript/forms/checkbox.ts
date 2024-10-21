@@ -1,5 +1,5 @@
 
-import button from "./components/button";
+import button from "./components/Button";
 import modal from "./components/modal";
 import { REQUIRED_RADIOS } from "./const";
 import removeElementForm from "./utils/removeElements";

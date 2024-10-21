@@ -1,3 +1,5 @@
+import modal from "../components/modal";
+
 const drawer = document.createElement("canvas");
 drawer.style.display = "none";
 drawer.id = "drawer";
@@ -6,18 +8,47 @@ document.body.appendChild(drawer);
 let rowIterator = 1;
 const doc = document;
 const $ = (selector: string) => doc.querySelector(selector);
+const $$ = (selector: string) => doc.querySelectorAll(selector);
+
+interface StartUpload {
+    id: string;
+    token: string;
+    route: string;
+    containerId: string;
+    name: string;
+}
+
+interface OptionsAdd {
+    route: string;
+    token: string;
+    id: string;
+    containerId: string;
+}
+
+interface GenerateWebp {
+    blob: File,
+    route?: string;
+    id?: string;
+    token?: string;
+    userId?: string;
+}
 
 export default function startUpload({
-    userId,
+    id,
     token,
     route,
     containerId,
     name
-}) {
-    const $buttonAdd = document.querySelector(`#button-${name}`);
-    const uploads = document.querySelectorAll(`.uploader-${name}`);
+}: StartUpload) {
 
-    for (let item of uploads) {
+    const $buttonAdd = $(`#button-${name}`) as HTMLButtonElement
+
+    const $inputUploader = $$(`.uploader-${name}`) as NodeListOf<HTMLInputElement>;
+
+    for (let item of $inputUploader) {
+
+        const $parentContainer = $(`$container-${item.id}`) as HTMLDivElement;
+
         item.style.display = "none";
         item.insertAdjacentHTML(
             "beforebegin",
@@ -28,23 +59,20 @@ export default function startUpload({
                 item.dataset.uploadId
             )
         );
-        document
-            .getElementById(`container-${item.id}`)
-            .addEventListener("click", addImageByClick);
-        document
-            .getElementById(`container-${item.id}`)
-            .addEventListener("drop", addImageByDrop);
-        document
-            .getElementById(`container-${item.id}`)
-            .addEventListener("dragover", dragOverEvent);
+        $parentContainer?.addEventListener("click", addImageByClick);
+        $parentContainer?.addEventListener("drop", addImageByDrop);
+        $parentContainer?.addEventListener("dragover", dragOverEvent);
     }
 
     $buttonAdd.addEventListener("click", function () {
-        add(route, token, userId, containerId);
+        add({ route, token, id, containerId });
     });
 }
 
-function add(route, key, id, containerId) {
+function add(optionsAdd: OptionsAdd) {
+
+    const { containerId, id, route, token } = optionsAdd;
+
     rowIterator++;
     let content = `
         <div id="row-${containerId}-${rowIterator}"
@@ -55,7 +83,7 @@ function add(route, key, id, containerId) {
                 name="multi-${containerId}-${rowIterator}" 
                 class="uploader" 
                 data-upload-route="${route}" 
-                data-upload-key="${key}" 
+                data-upload-key="${token}" 
                 data-upload-id="${id}"
             />
             <div class="container-button-add">
@@ -68,12 +96,12 @@ function add(route, key, id, containerId) {
             </div>
         </div>`;
 
-    const containerPhoto = document.querySelector(`#contain-${containerId}`);
+    const containerPhoto = $(`#contain-${containerId}`) as HTMLDivElement;
     const lastChild = containerPhoto.children.length - 1;
-    containerPhoto.children.item(lastChild).insertAdjacentHTML("afterend", content);
-    const newRow = document.getElementById(
-        `multi-${containerId}-${rowIterator}`
-    );
+    containerPhoto.children.item(lastChild)?.insertAdjacentHTML("afterend", content);
+    const newRow = $(`#multi-${containerId}-${rowIterator}`) as HTMLInputElement;
+
+    const $parentContainer = $(`$container-${newRow.id}`) as HTMLDivElement
 
     newRow.style.display = "none";
     newRow.insertAdjacentHTML(
@@ -85,41 +113,36 @@ function add(route, key, id, containerId) {
             newRow.dataset.uploadId
         )
     );
-    document
-        .getElementById(`container-${newRow.id}`)
-        .addEventListener("click", addImageByClick);
-    document
-        .getElementById(`container-${newRow.id}`)
-        .addEventListener("drop", (e) => addImageByDrop(e, target));
-    document
-        .getElementById(`container-${newRow.id}`)
-        .addEventListener("dragover", dragOverEvent);
+    $parentContainer?.addEventListener("click", addImageByClick);
+    $parentContainer?.addEventListener("drop", addImageByDrop);
+    $parentContainer?.addEventListener("dragover", dragOverEvent);
 
-    const $btnDelete = document.querySelector(`#delete-${rowIterator}`)
+    const $btnDelete = document.querySelector(`#delete-${rowIterator}`) as HTMLButtonElement;
 
-    $btnDelete.addEventListener('click', function(e){
-        quit(e, this)
-    })
+    $btnDelete?.addEventListener('click', quit)
 }
 
-function quit(e, element) {
+function quit(evt: MouseEvent) {
+    let target = evt.target as HTMLElement
 
-    const divParent =  element.parentNode.parentNode.parentNode;
-    
-    let target = e.target;
+    const divParent = target.parentNode?.parentNode?.parentNode;
+
     if (target.tagName == "I") {
+        if (!target.parentNode) return
         target = target.parentNode;
     }
-    
-    const divContainer = divParent.querySelector(`#${target.dataset.target}`);
+
+    const divContainer = divParent?.querySelector(`#${target.dataset.target}`);
     rowIterator--;
-    divContainer.remove();
+    divContainer?.remove();
 }
 
-function createImage(file, parent) {
-    const uploadRoute = parent.dataset.uploadRoute;
-    const token = parent.dataset.uploadKey;
-    const userId = parent.dataset.uploadId;
+function createImage(file: File | undefined, parent: HTMLElement | null) {
+    const uploadRoute = parent?.dataset.uploadRoute;
+    const token = parent?.dataset.uploadKey;
+    const userId = parent?.dataset.uploadId;
+
+    if (!file) return
     createImageBitmap(file, {
         resizeQuality: "high",
         premultiplyAlpha: "premultiply",
@@ -128,13 +151,14 @@ function createImage(file, parent) {
         drawer.height = img.height;
         drawer.width = img.width;
         let ctx = drawer.getContext("2d");
-        ctx.drawImage(img, 0, 0, img.width, img.height);
+        ctx?.drawImage(img, 0, 0, img.width, img.height);
         drawer.toBlob(
             (blob) => {
                 const UUID = getUUID();
+                if (!blob) return
                 let webpImage = new File([blob], UUID, { type: "image/webp" });
-                generateWebp(webpImage, uploadRoute, parent.id, token, userId);
-                let inputText = parent.querySelector('input[type="text"]');
+                generateWebp({ blob: webpImage, route: uploadRoute, id: parent?.id, token, userId });
+                let inputText = parent?.querySelector('input[type="text"]') as HTMLInputElement;
 
                 inputText.value =
                     UUID + "." + webpImage.type.replace("image/", "");
@@ -149,27 +173,37 @@ function createImage(file, parent) {
                 label.innerText = "Click image to delete"
                 label.classList.add('label-reset-image')
                 image.addEventListener("click", reset);
-                parent.querySelector("svg").replaceWith(label, image);
+                parent?.querySelector("svg")?.replaceWith(label, image);
             },
             "image/webp",
             0.95
         );
 
-        ctx.reset();
+        ctx?.reset();
     });
 }
 
-function generateWebp(blob, route, id, token, userId) {
+function generateWebp(generateWebpProps: GenerateWebp) {
+
+    const { blob, id, route, token, userId } = generateWebpProps;
     let loadImageWorker = null;
     if (window.Worker) {
         loadImageWorker = new Worker("/js/workers/loadImage.js");
     }
 
     if (loadImageWorker == null) {
-        $.alert({
+        modal({
             title: "Unsupport functionality for this browser.",
-            content:
-                "This funtionality isn't support in this browser, please use other browser.",
+            type: "red",
+            content: () => {
+                const $parent = doc.createElement('div');
+                const $paragraph = doc.createElement('p');
+                $paragraph.textContent = "error al cargar imagen";
+
+                $parent.appendChild($paragraph);
+
+                return $parent
+            },
         });
         return;
     }
@@ -183,70 +217,79 @@ function generateWebp(blob, route, id, token, userId) {
     });
 
     loadImageWorker.onmessage = (e) => {
-        parent = document.getElementById(e.data.id);
+        const parent = document.getElementById(e.data.id) as HTMLDivElement;
         if (e.data.status == 200) {
-            let inputText = parent.querySelector('input[type="text"]');
-            document.getElementById(e.data.id.replace("container-", "")).value =
-                null;
+            const inputText = parent?.querySelector('input[type="text"]') as HTMLInputElement;
+            const container = $(`#${e.data.id.replace("container-", "")}`) as HTMLInputElement
+            container.value = "";
             inputText.style.background = "#A8F0A8";
         } else {
-            $.alert({
+            modal({
                 title: "error al cargar imagen",
-                color: "red",
-                content: "error al cargar imagen",
-                buttons: {
-                    ok: {
-                        text: "Ok",
-                        btnClass: "btn btn-success",
-                        keys: ["enter"],
-                        action: () => {
-                            parent.firstElementChild.click();
-                        },
-                    },
+                type: "red",
+                content: () => {
+                    const $parent = doc.createElement('div');
+                    const $paragraph = doc.createElement('p');
+                    $paragraph.textContent = "error al cargar imagen";
+
+                    $parent.appendChild($paragraph);
+
+                    return $parent
                 },
             });
         }
     };
 }
 
-function addImageByClick(e) {
-    e.stopPropagation();
-    const target = e.target.dataset.skTarget;
-    let obj = document.getElementById(target);
+function addImageByClick(evt: MouseEvent) {
+    evt.stopPropagation();
+    const target = evt.target as HTMLButtonElement
+    const id = target.dataset.skTarget;
+    let obj = $(`#${id}`) as HTMLInputElement;
     obj?.addEventListener("change", loadImage);
     obj?.click();
 }
 
-function addImageByDrop(e) {
-    e.preventDefault();
-    const target = "";
-    const tagName = e.target.tagName;
-    const parent = null;
+function addImageByDrop(evt: DragEvent) {
+    evt.preventDefault();
+
+    const target = evt.target as HTMLElement
+
+    const tagName = target.tagName;
+    let parent = null;
 
     if (tagName == "svg" || tagName == "input") {
-        parent = e.target.parentNode;
+        parent = target.parentNode as HTMLElement;
     } else if (tagName == "path") {
-        parent = e.target.parentNode.parentNode;
+        parent = target?.parentNode?.parentNode as HTMLElement;
     } else {
-        parent = e.target.parentNode;
+        parent = target.parentNode as HTMLElement;
     }
 
-    const file = e.dataTransfer.files.item(0);
+    const file = evt.dataTransfer?.files.item(0);
+
+    if (!parent || !file) return
 
     createImage(file, parent);
 }
 
-function dragOverEvent(e) {
-    e.preventDefault();
+function dragOverEvent(evt: MouseEvent) {
+    evt.preventDefault();
 }
 
-function loadImage(e) {
-    const file = e.target.files[0];
-    let obj = document.getElementById(`container-${e.target.id}`);
+function loadImage(evt: Event) {
+    const target = evt.target as HTMLInputElement
+    const file = target.files?.[0];
+    let obj = document.getElementById(`container-${target.id}`);
     createImage(file, obj);
 }
 
-function getImage(item, route, token, userId) {
+
+interface Item {
+    id: string
+}
+
+function getImage(item: Item, route?: string, token?: string, userId?: string) {
     return `<div 
                 class="new-uploader"
                 id="container-${item.id}" 
@@ -294,19 +337,22 @@ function getUUID() {
     return uuid[0] + "-" + uuid[1] + "-" + uuid[2];
 }
 
-function reset(e) {
-    e.stopPropagation();
-    const parent = e.target.parentNode;
-    const inputText = parent.querySelector('input[type="text"]');
+function reset(evt: MouseEvent) {
+    evt.stopPropagation();
+    const target = evt.target as HTMLButtonElement
+    const parent = target.parentNode as HTMLDivElement;
+    const inputText = parent?.querySelector('input[type="text"]') as HTMLInputElement;
     inputText.style.background = "transparent";
-    const id = parent.dataset.target;
-    const route = parent.dataset.uploadRoute;
-    const token = parent.dataset.uploadKey;
-    const userId = parent.dataset.uploadId;
-    const elem = $(getImage({ id }, route, token, userId))[0];
+    const id = parent.dataset.target as string;
+    const route = parent.dataset.uploadRoute as string;
+    const token = parent.dataset.uploadKey as string;
+    const userId = parent.dataset.uploadId as string;
+    const elem = $$(getImage({ id }, route, token, userId))[0] as HTMLInputElement;
     elem.addEventListener("click", addImageByClick);
     elem.addEventListener("drop", addImageByDrop);
     elem.addEventListener("dragover", dragOverEvent);
     parent.replaceWith(elem);
     inputText.value = "";
 }
+
+

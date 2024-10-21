@@ -1,5 +1,5 @@
 import modal from "../components/modal";
-import button from "../components/button";
+import button from "../components/Button";
 
 import removeElementForm from "../utils/removeElements";
 import storage from "../utils/saveAtLocalStorage";
@@ -44,8 +44,8 @@ function bodyModal(target: HTMLButtonElement) {
 }
 
 export function create(incrementId: number) {
-    const $parentDiv = document.createElement("DIV");
-    const $parentInput = document.createElement("DIV");
+    const $parentDiv = document.createElement("div");
+    const $parentInput = document.createElement("div");
     const containerId = `card-paragraph-${incrementId}`;
     const buttonIdRemove = `paragraph-remove-${incrementId}`;
     const buttonIdUpdate = `paragraph-update-${incrementId}`;
@@ -80,7 +80,7 @@ export function create(incrementId: number) {
     $parentInput.className = "container-control-row";
     $parentInput.setAttribute("position", "row");
 
-    const $paragraph = doc.createElement("P");
+    const $paragraph = doc.createElement("p");
     const id = `paragraph-${incrementId}`;
     $paragraph.id = id;
 

@@ -1,4 +1,4 @@
-import button from "../components/button";
+import button from "../components/Button";
 
 import removeElementForm from "../utils/removeElements";
 
@@ -18,8 +18,8 @@ interface Create {
 }
 
 export function create({ type, incrementId, buttonType, style }: Create) {
-    const $parentDiv = document.createElement("DIV");
-    const $buttonForm = document.createElement("BUTTON") as HTMLButtonElement;
+    const $parentDiv = document.createElement("div");
+    const $buttonForm = document.createElement("button");
     const buttonIdRemove = `btn-${type}-remove-${incrementId}`;
     const containerId = `card-btn-${type}-${incrementId}`;
 

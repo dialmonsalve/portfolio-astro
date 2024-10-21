@@ -1,4 +1,4 @@
-import button from "../components/button";
+import button from "../components/Button";
 import storage from "./saveAtLocalStorage";
 import smooth from "./smoothWindow";
 import removePage from "./removePage";
@@ -9,13 +9,12 @@ const doc = document;
 const $ = (selector: string) => doc.querySelector(selector);
 const $containerForms = $("#container-forms");
 
-export default function addPage(evt: Event, incrementId: number) {
+export default function addPage(target: HTMLButtonElement, incrementId: number) {
     incrementId++;
     const buttonIdRemove = `remove-page-${incrementId}`;
     const buttonIdCreate = "add-page";
 
-    const target = evt.target as HTMLButtonElement;
-    const page = document.createElement("DIV");
+    const page = document.createElement("div");
 
     const buttonAdd = button(
         {
@@ -24,7 +23,7 @@ export default function addPage(evt: Event, incrementId: number) {
             spanClass: "button-square-plus",
             buttonClass: "card__button-add-page",
         },
-        (evt) => addPage(evt, incrementId)
+        (evt) => addPage(evt.target as HTMLButtonElement, incrementId)
     );
 
     const buttonDelete = button(
@@ -34,7 +33,7 @@ export default function addPage(evt: Event, incrementId: number) {
             spanClass: "button-square-remove",
             buttonClass: "card__button-remove-page",
         },
-        (evt) => removePage(evt, incrementId)
+        (evt) => removePage(evt.target as HTMLButtonElement, incrementId)
     );
 
     page.classList.add("container-card-form", "card");

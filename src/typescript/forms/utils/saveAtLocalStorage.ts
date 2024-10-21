@@ -1,5 +1,6 @@
 import { PAGES_STRING } from "../const";
 import type { Page, RestUpdate, Inputs } from "../interface";
+import type { Storage } from "../interface/storage";
 
 const saveAtLocalStorage = (pages: Page[]) =>
     localStorage.setItem("pages", JSON.stringify(pages));
@@ -62,7 +63,7 @@ function remove(target: HTMLButtonElement) {
     storage.saveAtLocalStorage(removeInput);
 }
 
-const storage = {
+const storage: Storage = {
     create,
     update,
     remove,

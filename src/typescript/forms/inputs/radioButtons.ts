@@ -1,6 +1,6 @@
 import modal from "../components/modal";
 import removeElementForm from "../utils/removeElements";
-import button from "../components/button";
+import button from "../components/Button";
 
 import bodyModal from "../components/bodySelectRadio";
 import storage from "../utils/saveAtLocalStorage";
@@ -14,9 +14,9 @@ let newOptions = "";
 const $containerCards = $(".container-forms");
 
 export function create(incrementId: number) {
-    const $parentDiv = document.createElement("DIV");
-    const $parentInput = document.createElement("DIV");
-    const $paragraph = doc.createElement("P");
+    const $parentDiv = document.createElement("div");
+    const $parentInput = document.createElement("div");
+    const $paragraph = doc.createElement("p");
 
     const buttonIdUpdate = `radioButtons-update-${incrementId}`;
     const buttonIdRemove = `radioButtons-remove-${incrementId}`;
@@ -42,8 +42,8 @@ export function create(incrementId: number) {
         removeElementForm
     );
 
-    const $label = doc.createElement("LABEL") as HTMLLabelElement;
-    const $radio = doc.createElement("INPUT") as HTMLInputElement;
+    const $label = doc.createElement("label");
+    const $radio = doc.createElement("input");
 
     const newLabel = "Edit options";
     const id = `container-radio-${incrementId}`;
@@ -162,8 +162,8 @@ function update(target: HTMLButtonElement, incrementId: number) {
     allLabels.forEach((label) => label.remove());
 
     optionsLabel.forEach((elem, idx) => {
-        const $label = doc.createElement("LABEL") as HTMLLabelElement;
-        const $radio = doc.createElement("INPUT") as HTMLInputElement;
+        const $label = doc.createElement("label");
+        const $radio = doc.createElement("input");
         const valueOpt = `radio-${idx + 1}-${incrementId}`;
         const nameOpt = elem;
 

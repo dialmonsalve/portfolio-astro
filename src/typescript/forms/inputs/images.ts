@@ -1,8 +1,8 @@
-// import startUpload from "../utils/uploaderSingleImage";
+import startUpload from "../utils/uploaderSingleImage";
 
 import modal from "../components/modal";
 import bodyModal from "../components/bodyImage";
-import button from "../components/button";
+import button from "../components/Button";
 
 import storage from "../utils/saveAtLocalStorage";
 import removeElementForm from "../utils/removeElements";
@@ -32,7 +32,7 @@ export function create(
     incrementId: number,
     { showPhoto, userId, userToken, route, stringId }: Create
 ) {
-    const $parentDiv = doc.createElement("DIV");
+    const $parentDiv = doc.createElement("div");
 
     const isSingleImage = showPhoto ? "image" : "single-image";
 
@@ -62,10 +62,10 @@ export function create(
 
     const newLabel = "Edit";
 
-    const $containerImage = doc.createElement("DIV");
-    const $imageDiv = doc.createElement("DIV");
-    const $label = doc.createElement("LABEL") as HTMLLabelElement;
-    const $input = doc.createElement("INPUT") as HTMLInputElement;
+    const $containerImage = doc.createElement("div");
+    const $imageDiv = doc.createElement("div");
+    const $label = doc.createElement("label");
+    const $input = doc.createElement("input") ;
 
     const id = `${stringId}-${incrementId}`;
     const name = `${stringId}-${incrementId}-'${newLabel}'`;
@@ -90,9 +90,9 @@ export function create(
     $input.setAttribute("accept", ".png, .jpeg, .jpg, .webp");
     $input.setAttribute("data-required", "false");
 
-    // setTimeout(() => {
-    //     startUpload(id);
-    // }, 500);
+    setTimeout(() => {
+        startUpload(id);
+    }, 500);
 
     $containerImage.appendChild($label);
     $containerImage.appendChild($input);

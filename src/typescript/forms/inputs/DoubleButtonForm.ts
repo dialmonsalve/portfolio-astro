@@ -1,4 +1,4 @@
-import button from "../components/button";
+import button from "../components/Button";
 
 import removeElementForm from "../utils/removeElements";
 import storage from "../utils/saveAtLocalStorage";
@@ -16,9 +16,9 @@ interface Create {
 }
 
 export function create({ type, incrementId, buttonType }: Create) {
-    const $parentDiv = document.createElement("DIV");
-    const $buttonFormBack = document.createElement("BUTTON") as HTMLButtonElement;
-    const $buttonFormNext = document.createElement("BUTTON") as HTMLButtonElement;
+    const $parentDiv = document.createElement("div");
+    const $buttonFormBack = document.createElement("button");
+    const $buttonFormNext = document.createElement("button");
 
     const buttonIdRemove = `both-back-${type}-remove-${incrementId}`;
     const containerId = `card-both-back-${type}-${incrementId}`;

@@ -1,5 +1,5 @@
 import modal from "../components/modal";
-import button from "../components/button";
+import button from "../components/Button";
 import inputComponent from "../components/inputComponent";
 
 import { REQUIRED_RADIOS, POSITION_RADIOS } from "../const/index";
@@ -14,8 +14,8 @@ const $ = (selector: string) => doc.querySelector(selector);
 const $containerCards = $(".container-forms");
 
 export function create(incrementId: number) {
-    const $parentDiv = document.createElement("DIV");
-    const $parentInput = document.createElement("DIV");
+    const $parentDiv = document.createElement("div");
+    const $parentInput = document.createElement("div");
     const containerId = `card-number-${incrementId}`;
     const buttonIdRemove = `number-remove-${incrementId}`;
     const buttonIdUpdate = `number-update-${incrementId}`;
@@ -53,8 +53,8 @@ export function create(incrementId: number) {
     $parentInput.classList.add(`container-control-row`);
     $parentInput.setAttribute("disposition", "row");
 
-    const $label = doc.createElement("LABEL") as HTMLLabelElement;
-    const $input = doc.createElement("INPUT") as HTMLInputElement;
+    const $label = doc.createElement("label");
+    const $input = doc.createElement("input");
 
     const id = `number-${incrementId}`;
     const name = `number-${incrementId}-${newLabel}`;
