@@ -1,7 +1,7 @@
-import { create } from "../inputs/DoubleButtonForm";
-import smooth from "../utils/smoothWindow";
+import { create } from "../inputs/DoubleButtonForm.js";
+import smooth from "../utils/smoothWindow.js";
 
-const $ = (selector: string) => document.querySelector(selector)
+const $ = (selector: string) => document.querySelector(selector);
 
 export default function doubleBackNext() {
     let incrementId = 0;
@@ -11,7 +11,6 @@ export default function doubleBackNext() {
     $buttonDoubleBackSubmit?.addEventListener("click", () => {
         incrementId++;
         create({ type: "submit", incrementId, buttonType: "submit" });
-        smooth()
+        smooth();
     });
-
 }

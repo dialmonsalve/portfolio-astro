@@ -1,0 +1,40 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+textarea {
+    border: thin solid #80808087;
+    border-radius: 8px;
+    outline: none;
+    padding: 0.3rem 0.5rem;
+    font-size: 1.2rem;
+    transition: box-shadow 0.2s ease-in-out;
+    resize: none;
+    height: 120px;
+    width: 100%;
+}
+
+textarea:focus {
+    outline: thin solid rgb(130, 207, 104);
+    box-shadow: 2px 2px 8px rgb(130, 207, 104);
+}
+
+@media (max-width: 768px) {
+    textarea {
+        max-width: 360px;
+    }
+}
+
+@media (max-width: 432px) {
+    textarea {
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 320px) {
+    textarea {
+        max-width: 270px;
+    }
+}

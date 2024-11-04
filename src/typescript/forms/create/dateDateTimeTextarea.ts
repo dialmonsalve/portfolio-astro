@@ -1,26 +1,27 @@
-import { create } from "../inputs/dateDateTimeTextarea";
-import smooth from "../utils/smoothWindow";
+import { create } from "../inputs/dateDateTimeTextarea.js";
+import smooth from "../utils/smoothWindow.js";
 
 const doc = document;
 const $ = (selector: string) => doc.querySelector(selector);
 
 interface Options {
-    object: 'Date' | 'DateTime' | 'Textarea',
+    object: Obj;
     type: InputType;
-    input: Input
+    input: Input;
 }
 
-type InputType = 'date' | 'time' | 'textarea'
-type Input = 'TEXTAREA' | 'INPUT'
+type InputType = "date" | "time" | "textarea";
+type Input = "textarea" | "input";
+type Obj = "Date" | "DateTime" | "Textarea";
 
-export default function date({ type, object, input }: Options) {
-    const isTime = type === "time" ? "date-time" : type;
-    const $input = $(`#${isTime}`);
+export default function dateOrArea({ type, object, input }: Options) {
+    const $input = $(`#${type}`);
     let incrementId = 0;
 
     $input?.addEventListener("click", () => {
         incrementId++;
-        create(incrementId, {
+        create({
+            incrementId,
             object,
             type,
             input,

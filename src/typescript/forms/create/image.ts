@@ -4,25 +4,18 @@ import smooth from "../utils/smoothWindow";
 const doc = document;
 const $ = (selector: string) => doc.querySelector(selector);
 
-interface Image {
-    userId: string;
-    userToken: string;
-    route: string;
-}
+export default function image() {
+  const $singleImage = $("#one-image");
+  let incrementId = 0;
 
-export default function image({ userId, userToken, route }: Image) {
-    const $singleImage = $("#image");
-    let incrementId = 0;
-
-    $singleImage?.addEventListener("click", () => {
-        incrementId++;
-        create(incrementId, {
-            showPhoto: true,
-            userId,
-            userToken,
-            route,
-            stringId: "image",
-        });
-        smooth()
+  $singleImage?.addEventListener("click", () => {
+    incrementId++;
+    create({
+      incrementId,
+      showPhoto: true,
+      stringId: "image",
+      takePicture: false,
     });
+    smooth();
+  });
 }

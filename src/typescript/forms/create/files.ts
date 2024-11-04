@@ -1,9 +1,8 @@
-
-import { create } from "../inputs/files";
-import smooth from "../utils/smoothWindow";
+import { create } from "../inputs/files.js";
+import smooth from "../utils/smoothWindow.js";
 
 const doc = document;
-const $ = (selector:string) => doc.querySelector(selector);
+const $ = (selector: string) => doc.querySelector(selector);
 
 export default function files() {
     const $files = $("#files");
@@ -11,7 +10,7 @@ export default function files() {
 
     $files?.addEventListener("click", () => {
         incrementId++;
-        create(incrementId);
+        create({ incrementId });
         smooth();
     });
 }

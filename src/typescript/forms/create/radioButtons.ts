@@ -5,12 +5,12 @@ const doc = document;
 const $ = (selector: string) => doc.querySelector(selector);
 
 export default function radioButtons() {
-    const $radioButtons = $("#radio-buttons");
-    let incrementId = 0;
+  const $radioButtons = $("#radio-buttons");
+  let incrementId = 0;
 
-    $radioButtons?.addEventListener("click", () => {
-        incrementId++;
-        create(incrementId);
-        smooth();
-    });
+  $radioButtons?.addEventListener("click", () => {
+    incrementId++;
+    create({ incrementId });
+    smooth();
+  });
 }

@@ -1,9 +1,8 @@
-
-import { create } from "../inputs/checkbox";
-import smooth from "../utils/smoothWindow";
+import { create } from "../inputs/checkbox.js";
+import smooth from "../utils/smoothWindow.js";
 
 const doc = document;
-const $ = (selector:string) => doc.querySelector(selector);
+const $ = (selector: string) => doc.querySelector(selector);
 
 export default function checkbox() {
     const $checkbox = $("#checkbox");
@@ -11,7 +10,7 @@ export default function checkbox() {
 
     $checkbox?.addEventListener("click", () => {
         incrementId++;
-        create(incrementId);
-        smooth()
+        create({ incrementId });
+        smooth();
     });
 }

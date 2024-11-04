@@ -1,14 +1,13 @@
 ---
-import { getI18N } from '../../../i18n'
-import Menu from '../../Menu.astro'
-import '../../../styles/pages/create-inputs/inputsWithJs.css'
-import '../../../styles/components/modal.css'
-import '../../../styles/web-components/button.css'
-import '../../../styles/pages/create-inputs/inputFile.css'
-import '../../../styles/pages/create-inputs/inputs.css'
+import { getI18N } from "../../../i18n";
+import Menu from "../../Menu.astro";
+import "../../../styles/pages/create-inputs/page.css";
+import "../../../styles/pages/create-inputs/inputs.css";
+import "../../../styles/components/modal.css";
+import "../../../styles/components/button.css";
 
-const { currentLocale } = Astro
-const i18n = getI18N({ currentLocale })
+const { currentLocale } = Astro;
+const i18n = getI18N({ currentLocale });
 ---
 
 <section class="section-forms" id="section-forms">
@@ -21,7 +20,7 @@ const i18n = getI18N({ currentLocale })
 
   <article class="container-forms" id="container-cards">
     <div class="container-card-form card" id="card-1">
-      <button class="card__button-add" id="button-add-page"
+      <button class="card__button-add" id="add-page"
         >add page<span class="button-square-add"></span>
       </button>
     </div>

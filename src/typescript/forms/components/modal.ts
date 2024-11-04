@@ -1,4 +1,4 @@
-const Color = {
+export const Color = {
   yellow: "yellow",
   green: "green",
   purple: "purple",
@@ -10,13 +10,20 @@ interface Modal {
   type?: keyof typeof Color;
   content?: () => HTMLElement | undefined;
   action?: (e: MouseEvent) => void;
+  twoButtons?: boolean;
 }
 
-export default function modal({ title, content, type = "green", action }: Modal) {
-  const body = document.querySelector("body");
-  const $modalExists = document.querySelector(".modal.show-modal");
+export default function modal({
+  title,
+  content,
+  type = "green",
+  action,
+  twoButtons = true,
+}: Modal) {
+  const windowModal = document.querySelector(".modal.show-modal");
 
-  if ($modalExists) return;
+  if (windowModal) return;
+  const body = document.querySelector("body");
 
   const $modal = document.createElement("div");
   $modal.classList.add("modal", "show-modal");
@@ -50,7 +57,7 @@ export default function modal({ title, content, type = "green", action }: Modal)
   $modalHeader.appendChild($titleModal);
 
   $modalFooter.appendChild($buttonFooter1);
-  $modalFooter.appendChild($buttonFooter2);
+  if (twoButtons) $modalFooter.appendChild($buttonFooter2);
 
   $containerModal.appendChild($modalHeader);
   $containerModal.appendChild($nodeChild!);
@@ -58,7 +65,7 @@ export default function modal({ title, content, type = "green", action }: Modal)
   $modal.appendChild($containerModal);
 
   if (action) {
-    $buttonFooter1.addEventListener('click', action)
+    $buttonFooter1.addEventListener("click", action);
   }
 
   $buttonFooter1.addEventListener("click", () => closeModal($modal));
@@ -66,19 +73,19 @@ export default function modal({ title, content, type = "green", action }: Modal)
   $buttonFooter2.addEventListener("click", () => closeModal($modal));
 
   $modal.addEventListener("click", function (e) {
-    if (e.target === this) closeModal(this)
+    if (e.target === this) closeModal(this);
   });
 
   window.addEventListener("keydown", function (e) {
-    if (e.key === 'Escape') closeModal($modal)
-  })
+    if (e.key === "Escape") closeModal($modal);
+  });
 
   body?.appendChild($modal);
 }
 
 function closeModal($modal: HTMLDivElement) {
-  $modal.classList.add('hide-modal');
+  $modal.classList.add("hide-modal");
   setTimeout(() => {
     $modal.remove();
-  }, 300)
+  }, 300);
 }

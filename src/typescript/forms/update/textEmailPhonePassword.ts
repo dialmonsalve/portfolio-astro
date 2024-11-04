@@ -1,31 +1,52 @@
-import { configure, create } from "../inputs/textEmailPhonePassword.js";
+import modal from "../components/modal.js";
+import { create, bodyModal, update } from "../inputs/textEmailPhonePassword.js";
 import removeElementForm from "../utils/removeElements.js";
 import smooth from "../utils/smoothWindow.js";
 
 const doc = document;
-const $ = (selector) => doc.querySelector(selector);
-const $$ = (selector) => doc.querySelectorAll(selector);
+const $ = (selector: string) => doc.querySelector(selector);
+const $$ = (selector: string) => doc.querySelectorAll(selector);
 
-export default function input({type}) {
-    const $element = $(`#${type}`);
+type TypeInput = "Text" | "Email" | "Phone" | "Password";
 
-    const $allButtonsUpdate = $$(`.card button[id*="${type}-update"]`);
-    const $allButtonsRemove = $$(`.card button[id*="${type}-remove"]`);
-    let incrementId = $$(`.card button[id*="${type}-update"]`).length;
 
-    $element.addEventListener("click", () => {
+export default function input({ type }:{type: TypeInput}) {
+    const lowerType = type.toLocaleLowerCase() as "text" | "email" | "phone" | "password";
+    const $element = $(`#${lowerType}`);
+
+    const $allButtonsUpdate = $$(`.card button[id*="${lowerType}-update"]`);
+    const $allButtonsRemove = $$(`.card button[id*="${lowerType}-remove"]`);
+    let incrementId = $$(`.card button[id*="${lowerType}-update"]`).length;
+
+    $element?.addEventListener("click", () => {
         incrementId++;
-        create(incrementId, { object: "Email", type: "email" });
-        smooth()
+        create({
+            incrementId,
+            object: type,
+            type: lowerType === "password" ? "text" : lowerType,
+        });
+        smooth();
     });
 
     for (let i = 0; i < $allButtonsUpdate.length; i++) {
         const buttonUpdate = $allButtonsUpdate[i];
-        buttonUpdate.addEventListener("click", (evt)=>configure(evt.target, incrementId, type) );
-    };
+        buttonUpdate.addEventListener("click", (evt) =>
+
+            modal({
+                title: `update input ${type}`,
+                content: () =>
+                    bodyModal(evt.target as HTMLButtonElement, { type: lowerType }),
+                action: () =>
+                    update(evt.target as HTMLButtonElement, {
+                        incrementId,
+                        type: lowerType === "password" ? "text" : lowerType,
+                    }),
+            })
+        );
+    }
 
     for (let i = 0; i < $allButtonsRemove.length; i++) {
-        const buttonRemove = $allButtonsRemove[i];
+        const buttonRemove = $allButtonsRemove[i] as HTMLButtonElement;
         buttonRemove.addEventListener("click", removeElementForm);
-    };
+    }
 }

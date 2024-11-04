@@ -1,8 +1,8 @@
-import storage from "./saveAtLocalStorage";
+import storage from "./saveAtLocalStorage.js";
 
-export default function removeElementForm(evt:MouseEvent) {
+export default function removeElementForm(evt: MouseEvent) {
     const target = evt.target as HTMLButtonElement;
-    const parentDiv = target.closest(".container-components");
+    const parentDiv = target?.closest(".container-components");
 
     if (!parentDiv) return;
 

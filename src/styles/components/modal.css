@@ -15,7 +15,6 @@
     display 0.25s ease-in-out;
   transition-behavior: allow-discrete;
   opacity: 1;
-  transition: opacity 0.3s ease-in-out;
   @starting-style {
     opacity: 0;
   }
@@ -67,7 +66,7 @@
 
 .modal-footer__button-1:active,
 .modal-footer__button-2:active {
-  box-shadow: 2px 2px 0px #808088cd inset;
+  box-shadow: 2px 2px 0 #808088cd inset;
 }
 
 .modal-footer__button-1:hover,

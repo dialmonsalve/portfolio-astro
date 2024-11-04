@@ -1,5 +1,5 @@
-import { create } from "../inputs/headings";
-import smooth from "../utils/smoothWindow";
+import { create } from "../inputs/headings.js";
+import smooth from "../utils/smoothWindow.js";
 
 export default function headings() {
     const $headings = document.querySelector("#heading");
@@ -7,7 +7,7 @@ export default function headings() {
 
     $headings?.addEventListener("click", () => {
         incrementId++;
-        create(incrementId);
+        create({ incrementId });
         smooth();
     });
 }

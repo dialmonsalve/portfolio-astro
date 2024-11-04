@@ -1,8 +1,8 @@
-import { create } from "../inputs/SingleButtonForm";
-import smooth from "../utils/smoothWindow";
+import { create } from "../inputs/SingleButtonForm.js";
+import smooth from "../utils/smoothWindow.js";
 
 const doc = document;
-const $ = (selector:string) => doc.querySelector(selector);
+const $ = (selector: string) => doc.querySelector(selector);
 
 let incrementId = 0;
 export default function singleNext() {

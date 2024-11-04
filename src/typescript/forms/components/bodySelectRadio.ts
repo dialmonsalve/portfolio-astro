@@ -1,87 +1,92 @@
 import inputComponent from "./inputComponent";
 import { REQUIRED_RADIOS, POSITION_RADIOS } from "../const";
+import cleanTextInputs from "../utils/cleanTextInputs";
 
 const doc = document;
 
 interface Options {
-    newOptions: string;
-    tag: string
+  tagOptions: string;
+  tag: string;
 }
 
-export default function bodyModal(target: HTMLButtonElement, { newOptions, tag }: Options) {
+export default function bodyModal(
+  target: HTMLButtonElement,
+  { tag, tagOptions }: Options,
+) {
+  const $parentDiv = doc.createElement("app-modal-body");
+  const $parentContainer = target.closest(".container-components");
+  const $radioButtonsRequired = doc.createElement("app-radio-buttons");
+  const $radioButtonsPosition = doc.createElement("app-radio-buttons");
+  const $containerArea = doc.createElement("app-textarea");
 
-    const $parentDiv = doc.createElement("app-modal-body");
-    const $radioButtonsRequired = doc.createElement("app-radio-buttons");
-    const $radioButtonsPosition = doc.createElement("app-radio-buttons");
-    const $containerArea = doc.createElement("app-textarea");
+  $radioButtonsRequired.setAttribute("label", "Required:");
+  $radioButtonsRequired.id = "container-radios-required";
+  $radioButtonsRequired.setAttribute("name", "inputs-required");
 
-    $radioButtonsRequired.setAttribute("label", "Required:");
-    $radioButtonsRequired.id = "container-radios-required";
-    $radioButtonsRequired.setAttribute('name', 'inputs-required');
+  $radioButtonsPosition.setAttribute("name", "inputs-position");
+  $radioButtonsPosition.setAttribute("label", "Position:");
+  $radioButtonsPosition.id = "container-radios-position";
 
-    $radioButtonsPosition.setAttribute('name', 'inputs-position');
-    $radioButtonsPosition.setAttribute("label", "Position:");
-    $radioButtonsPosition.id = "container-radios-position";
+  const $ContainerInputLabel = inputComponent({
+    name: "input-label",
+    type: "text",
+    label: "Label",
+    id: "container-input-label",
+  });
 
-    const $ContainerInputLabel = inputComponent({
-        name: "input-label",
-        type: "text",
-        label: "Label",
-        id: "container-input-label",
-    });
+  const $parentInputs = $parentContainer?.lastElementChild;
 
-    $containerArea.setAttribute("name", "area");
-    $containerArea.setAttribute("label", "options");
-    $containerArea.setAttribute("input_id", "area");
-    $containerArea.id = "container-area-label";
+  if (!$parentInputs) return;
 
-    const $parentContainer = target.closest(".container-components");
+  const $paragraph = $parentInputs.querySelector("p");
+  const $input = $parentInputs.querySelector(tag);
 
-    const $parentInputs = $parentContainer?.lastElementChild;
+  const paragraphText = cleanTextInputs($paragraph);
 
-    if (!$parentInputs) return;
+  $containerArea.setAttribute("name", "area");
+  $containerArea.setAttribute("label", "options");
+  $containerArea.setAttribute("input_id", "area");
+  $containerArea.id = "container-area-label";
 
-    const $label = $parentInputs.querySelector("p");
-    const $input = $parentInputs.querySelector(tag);
+  const $options = $parentInputs.querySelectorAll(tagOptions);
 
-    let labelText = "";
+  let newOptions = "";
 
-    $label?.childNodes.forEach((node) => {
-        if (node.nodeType === Node.TEXT_NODE) {
-            labelText += node.textContent;
-        }
-    });
+  $options.forEach((node, index) => {
+    newOptions += node.textContent;
+    if (index < $options.length - 1) {
+      newOptions += "\n";
+    }
+  });
 
-    const newLabel = labelText;
-    const newCheckedPosition = $parentInputs.getAttribute("disposition");
+  const newCheckedPosition = $parentInputs.getAttribute("disposition");
+  const newCheckedRequired = $input?.getAttribute("data-required");
 
-    const newCheckedRequired = $input?.getAttribute("data-required");
+  const updatedRequiredRadios = REQUIRED_RADIOS.map((radio) => ({
+    ...radio,
+    isChecked: radio.value === newCheckedRequired,
+  }));
 
-    const updatedRequiredRadios = REQUIRED_RADIOS.map((radio) => ({
-        ...radio,
-        isChecked: radio.value === newCheckedRequired,
-    }));
+  const updatedPositionRadios = POSITION_RADIOS.map((radio) => ({
+    ...radio,
+    isChecked: radio.value === newCheckedPosition,
+  }));
 
-    const updatedPositionRadios = POSITION_RADIOS.map((radio) => ({
-        ...radio,
-        isChecked: radio.value === newCheckedPosition,
-    }));
+  $ContainerInputLabel.setAttribute("new_value", paragraphText);
+  $containerArea.setAttribute("new_value", newOptions);
+  $radioButtonsRequired.setAttribute(
+    "radios",
+    JSON.stringify(updatedRequiredRadios),
+  );
+  $radioButtonsPosition.setAttribute(
+    "radios",
+    JSON.stringify(updatedPositionRadios),
+  );
 
-    $ContainerInputLabel.setAttribute("new_value", newLabel);
-    $containerArea.setAttribute("new_value", newOptions);
-    $radioButtonsRequired.setAttribute(
-        "radios",
-        JSON.stringify(updatedRequiredRadios)
-    );
-    $radioButtonsPosition.setAttribute(
-        "radios",
-        JSON.stringify(updatedPositionRadios)
-    );
+  $parentDiv.appendChild($ContainerInputLabel);
+  $parentDiv.appendChild($containerArea);
+  $parentDiv.appendChild($radioButtonsRequired);
+  $parentDiv.appendChild($radioButtonsPosition);
 
-    $parentDiv.appendChild($ContainerInputLabel);
-    $parentDiv.appendChild($containerArea);
-    $parentDiv.appendChild($radioButtonsRequired);
-    $parentDiv.appendChild($radioButtonsPosition);
-
-    return $parentDiv;
+  return $parentDiv;
 }
