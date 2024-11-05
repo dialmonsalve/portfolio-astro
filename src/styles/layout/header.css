@@ -1,8 +1,9 @@
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 2rem 3rem 0;
+  padding: 2rem 3rem 1rem;
   align-self: stretch;
+  border-bottom: 1px solid var(--gray);
 }
 
 .conainer-logo {

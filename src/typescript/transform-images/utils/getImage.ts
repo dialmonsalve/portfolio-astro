@@ -5,9 +5,13 @@ interface GetImageOptions {
 
 export function getImage({ id, name }: GetImageOptions) {
   const $parentDiv = document.createElement("div");
+  const $label = document.createElement("label");
   $parentDiv.id = `container-${id}`;
   $parentDiv.setAttribute("data-target", id);
   $parentDiv.classList.add("new-uploader");
+  $label.htmlFor = "image";
+  $label.classList.add("label");
+  $label.textContent = "Upload image";
 
   const svg = `<svg 
             xmlns="http://www.w3.org/2000/svg" 
@@ -25,11 +29,8 @@ export function getImage({ id, name }: GetImageOptions) {
             </path>
         </svg>`;
 
-  const $input = document.createElement("input");
-  $input.type = "text";
+  const $input = document.createElement("label");
   $input.id = `input-${id}`;
-  $input.readOnly = true;
-  $input.required = true;
   $input.classList.add("new-uploader__input");
   $input.setAttribute("data-sk-drawer", `drawer-${id}`);
   $input.setAttribute("name", `input-${name}`);
@@ -37,6 +38,7 @@ export function getImage({ id, name }: GetImageOptions) {
   $input.setAttribute("data-required", "true");
 
   $parentDiv.innerHTML = svg;
+  $parentDiv.appendChild($label);
   $parentDiv.appendChild($input);
 
   return $parentDiv;

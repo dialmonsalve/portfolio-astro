@@ -1,7 +1,6 @@
-import { createImage } from "./createImage.js";
+import { createImage } from "./createImage";
 
 export function loadImage(evt: Event) {
-  console.log("click");
   const target = evt.target as HTMLInputElement;
   const file = target.files?.[0];
   const obj = document.querySelector(

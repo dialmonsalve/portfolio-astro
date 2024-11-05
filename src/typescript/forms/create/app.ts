@@ -1,24 +1,16 @@
 import "../../web-components";
 
-import buttonNext from "./buttonNext";
-import buttonSubmit from "./buttonSubmit";
 import checkbox from "./checkbox";
 import createPage from "./createPage";
 import dateOrArea from "./dateDateTimeTextarea";
-import doubleBackNext from "./doubleBackNext";
-import doubleBackSubmit from "./doubleBackSubmit";
 import files from "./files";
 import headings from "./headings";
-import image from "./image";
 import input from "./textEmailPhonePassword";
-import multiImage from "./multiImage";
 import number from "./number";
 import paragraph from "./paragraph";
-import photo from "./photo";
 import radioButtons from "./radioButtons";
 import select from "./select";
 import signature from "./signature";
-import singleImage from "./singleImage";
 
 import storage from "../utils/saveAtLocalStorage";
 import navigateInPage from "../utils/navigateInPage";
@@ -54,13 +46,5 @@ import navigateInPage from "../utils/navigateInPage";
   signature();
   select();
   radioButtons();
-  singleImage();
-  multiImage();
   files();
-  image();
-  photo();
-  buttonNext();
-  buttonSubmit();
-  doubleBackNext();
-  doubleBackSubmit();
 })();

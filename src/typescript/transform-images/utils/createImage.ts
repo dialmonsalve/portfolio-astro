@@ -1,5 +1,7 @@
-import { getUUID } from "./getUUID.js";
-import { reset } from "./reset.js";
+import { getUUID } from "./getUUID";
+import { reset } from "./reset";
+import { values } from "./changeValues.ts";
+import { downloadImage } from "./downloadImage.ts";
 
 const drawer = document.createElement("canvas");
 drawer.style.display = "none";
@@ -11,6 +13,12 @@ type Parent = HTMLDivElement | null;
 
 export function createImage(file: CreateFile, parent: Parent) {
   if (!file) return;
+
+  const { quality, format } = values();
+
+  const $divParent = document.querySelector(".section-images");
+  const $divImage = document.querySelector("#card-image") as HTMLDivElement;
+
   createImageBitmap(file, {
     resizeQuality: "high",
     premultiplyAlpha: "premultiply",
@@ -24,30 +32,43 @@ export function createImage(file: CreateFile, parent: Parent) {
       (blob) => {
         if (!blob) return;
         const UUID = getUUID();
-        const webpImage = new File([blob], UUID, { type: "image/webp" });
-
+        const typeOption = format || "jpeg";
+        const webpImage = new File([blob], UUID, {
+          type: `image/${typeOption}`,
+        });
         const inputText = parent?.querySelector(
-          'input[type="text"]',
+          "#input-image",
         ) as HTMLInputElement;
 
-        inputText.value = UUID + "." + webpImage.type.replace("image/", "");
+        inputText.textContent =
+          UUID + "." + webpImage.type.replace("image/", "");
         const urlObj = URL.createObjectURL(webpImage);
         const image = document.createElement("img");
         const label = document.createElement("label");
+        const $buttonDownload = document.createElement("button");
         image.width = 100;
         image.height = 100;
         image.src = urlObj;
         image.alt = UUID;
+        image.id = "converted-image";
         image.classList.add("image");
         label.innerText = "Click image to delete";
         label.classList.add("label-reset-image");
-        image.addEventListener("click", reset);
-        parent?.querySelector("svg")?.replaceWith(label, image);
-      },
-      "image/webp",
-      0.95,
-    );
+        label.addEventListener("click", reset);
 
+        image.addEventListener("click", reset);
+        image.setAttribute("data-name", `${UUID}.${format}`);
+        parent?.querySelector("svg")?.replaceWith(label, image);
+
+        $buttonDownload.textContent = "download";
+        $buttonDownload.addEventListener("click", downloadImage);
+        $buttonDownload.id = "download-image";
+        $buttonDownload.classList.add("btn-download-image");
+        $divParent?.insertBefore($buttonDownload, $divImage);
+      },
+      "image/jpeg",
+      quality,
+    );
     ctx?.reset();
   });
 }

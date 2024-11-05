@@ -1,4 +1,4 @@
-.container-inputs{
+.container-inputs {
   position: absolute;
   top: -5rem;
   right: -4rem;
@@ -16,6 +16,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--secondary-color);
+  border: thin solid var(--primary-color);
+  padding: 0 0.5rem;
 }
 
 .container-elements {
@@ -51,15 +53,15 @@
   display: none;
 }
 
-.menu[type="checkbox"]:checked~.container-menu__label {
+.menu[type="checkbox"]:checked ~ .container-menu__label {
   box-shadow: 1px -1px 8px var(--primary-color) inset;
 }
 
-div:has(.menu[type="checkbox"]:not(:checked))+.container-elements {
+div:has(.menu[type="checkbox"]:not(:checked)) + .container-elements {
   transform: translateX(105%);
 }
 
-div:has(.menu[type="checkbox"]:checked)+.container-elements {
+div:has(.menu[type="checkbox"]:checked) + .container-elements {
   transform: translateX(0);
 }
 
@@ -89,11 +91,15 @@ div:has(.menu[type="checkbox"]:checked)+.container-elements {
   font-size: 10px;
 }
 
-.menu[type="checkbox"]:checked+.container-menu__label>.container-menu__icon::after {
+.menu[type="checkbox"]:checked
+  + .container-menu__label
+  > .container-menu__icon::after {
   transform: rotate(45deg) translate(2px, 4px);
 }
 
-.menu[type="checkbox"]:checked+.container-menu__label>.container-menu__icon::before {
+.menu[type="checkbox"]:checked
+  + .container-menu__label
+  > .container-menu__icon::before {
   transform: rotate(225deg) translate(-3px, -16px);
 }
 
@@ -122,19 +128,21 @@ div:has(.menu[type="checkbox"]:checked)+.container-elements {
 
 .container-elements__btn {
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--primary-color);
   width: 100%;
   border-radius: 4px;
   transition: all 0.3s ease-in-out;
   padding: 0.5rem 0;
   font-size: 1.4rem;
-  border: thin solid var(--shadow1);
+  border: thin solid var(--primary-color);
 }
 
 .container-elements__btn:hover {
+  background-color: var(--primary-color);
+  color: var(--color-white);
   opacity: 0.9;
   box-shadow:
-    0px 0px 06px var(--shadow1),
+    0 0 06px var(--shadow1),
     4px 2px 8px var(--shadow2);
 }
 

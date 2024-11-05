@@ -1,0 +1,115 @@
+.h1-convert-images {
+  color: var(--purple);
+}
+
+.section-images {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+.container-selects {
+  display: flex;
+  gap: 2rem;
+}
+.container-selects label {
+  font-size: 1.4rem;
+}
+.select {
+  border: 1px solid var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+  background-color: var(--purple);
+}
+.container-components {
+  margin: 0 auto;
+}
+
+.container-image__image {
+  display: block;
+  margin: 0 auto;
+}
+
+.new-uploader {
+  border: thin solid #80808066;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  min-width: 250px;
+  min-height: 250px;
+  gap: 1rem;
+}
+
+.new-uploader__image:active {
+  box-shadow: 1px 1px 4px #808080 inset;
+}
+
+.new-uploader__image:hover {
+  cursor: pointer;
+}
+
+.new-uploader__image {
+  box-shadow:
+    1px 1px 4px var(--shadow1),
+    4px 4px 8px var(--shadow2);
+  border: thin solid #80808066;
+  border-radius: 8px;
+  width: 80px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  background-color: white;
+}
+
+.hidden-image {
+  display: none;
+  opacity: 0;
+}
+
+.image {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  width: 50%;
+  height: 100%;
+}
+
+.image + .new-uploader__input {
+  cursor: auto;
+  pointer-events: none;
+  font-size: 1.2rem;
+  color: white;
+}
+.label {
+  font-size: 1.2rem;
+}
+
+.label-reset-image {
+  color: white;
+  font-size: 1.4rem;
+  background-color: var(--primary-color);
+  padding: 0.3rem;
+  cursor: pointer;
+}
+
+.btn-download-image {
+  background-color: var(--green);
+  color: var(--color-white);
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+  box-shadow:
+    1px 1px 4px var(--shadow1),
+    4px 4px 8px var(--shadow2);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-download-image:hover {
+  transform: scale(1.1);
+}
+
+.btn-download-image:active {
+  box-shadow: 1px -1px 8px var(--shadow1) inset;
+}

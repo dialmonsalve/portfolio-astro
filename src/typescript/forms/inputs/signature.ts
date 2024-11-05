@@ -9,6 +9,7 @@ import cleanTextInputs from "../utils/cleanTextInputs";
 import addRequiredToInput from "../utils/addRequiredToInput";
 import { AppInput, AppTextarea } from "../../web-components";
 import type { Inputs } from "../interfaces";
+import sign from "../components/signature.ts";
 
 const doc = document;
 const $ = (selector: string) => doc.querySelector(selector);
@@ -19,8 +20,8 @@ export function create({ incrementId }: { incrementId: number }) {
   const $parentDiv = doc.createElement("div");
   const $parentSignature = doc.createElement("div");
   const $signature = doc.createElement("div");
-
-  const $label = document.createElement("label");
+  const $inputHidden = doc.createElement("input");
+  const $label = doc.createElement("label");
   const $canvas = doc.createElement("canvas");
   const $buttonClear = doc.createElement("button");
 
@@ -34,23 +35,23 @@ export function create({ incrementId }: { incrementId: number }) {
   $parentSignature.classList.add("container-control-row");
   $parentSignature.setAttribute("disposition", "row");
 
-  $signature.style.display = "flex";
-  $signature.style.flexDirection = "column";
-  $signature.style.gap = "0.5rem";
-  $signature.style.alignItems = "flex-start";
+  $signature.classList.add("container-signature");
 
   $label.classList.add("container-check__label");
   $label.textContent = newLabel;
+
+  $inputHidden.type = "hidden";
+  $inputHidden.id = `hidden-${incrementId}`;
 
   const name = `signature-${incrementId}-${newLabel}`;
 
   $canvas.setAttribute("data-required", "false");
   $canvas.setAttribute("name", `canvas-${name}`);
   $canvas.id = `canvas-${id}`;
-  $canvas.className = "border border-1 rounded-1";
+  $canvas.className = "canvas-signature";
 
   $buttonClear.id = `clear-${id}`;
-  $buttonClear.className = "btn btn-sm btn-outline-danger mt-1";
+  $buttonClear.className = "btn-clear-signature";
   $buttonClear.type = "button";
   $buttonClear.textContent = "clear";
 
@@ -92,6 +93,7 @@ export function create({ incrementId }: { incrementId: number }) {
 
   $signature.appendChild($label);
   $signature.appendChild($canvas);
+  $signature.appendChild($inputHidden);
   $signature.appendChild($buttonClear);
 
   $parentSignature.appendChild($signature);
@@ -99,6 +101,12 @@ export function create({ incrementId }: { incrementId: number }) {
   $parentDiv.appendChild($parentSignature);
 
   $lastChildren?.appendChild($parentDiv);
+
+  sign({
+    id: `canvas-${id}`,
+    name: `hidden-${incrementId}`,
+    clear: `clear-${id}`,
+  });
 
   const updateInputs: Inputs = {
     buttonIdRemove,

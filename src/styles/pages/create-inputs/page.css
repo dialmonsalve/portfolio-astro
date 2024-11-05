@@ -1,3 +1,7 @@
+.h1-web-components {
+  color: var(--primary-color);
+}
+
 .section-forms {
   position: relative;
 }
@@ -13,17 +17,15 @@
   position: relative;
   padding: 2rem;
   min-width: 650px;
-  border: 1px solid #8080805a;
-  border-radius: 8px;
-}
-
-.card {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  border-radius: 10px;
+  border: thin solid #80808066;
+  width: 600px;
   transition:
     opacity 0.3s ease-in-out,
     display 1s ease-in-out allow-discrete;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
 }
 
 .container-forms {
@@ -43,45 +45,6 @@
   width: 100%;
 }
 
-.container-components__image {
-  width: 100%;
-}
-
-.heading1 {
-  font-size: 3.4rem;
-  text-transform: uppercase;
-  text-align: center;
-  margin: 0 !important;
-}
-
-.heading2 {
-  font-size: 3rem;
-  text-transform: uppercase;
-  text-align: center;
-  margin: 0 !important;
-}
-
-.heading3 {
-  font-size: 2.6rem;
-}
-
-.heading4 {
-  font-size: 2.2rem;
-}
-
-.heading5 {
-  font-size: 1.8rem;
-}
-
-.heading6 {
-  font-size: 1.4rem;
-}
-
-.paragraph {
-  font-size: 1.2rem;
-}
-
-
 @media (max-width: 75em) {
   /* 1200px */
 }
@@ -91,7 +54,6 @@
 }
 
 @media (max-width: 37.5em) {
-
   /* 600px */
   .heading1 {
     font-size: 2.8rem;

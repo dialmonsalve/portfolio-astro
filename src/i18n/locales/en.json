@@ -22,6 +22,12 @@
         "IMAGE": "",
         "DESCRIPTION": "Create your forms",
         "SLUG": "web-components"
+      },
+      {
+        "TITLE": "convert images",
+        "IMAGE": "",
+        "DESCRIPTION": "Change your image format",
+        "SLUG": "convert-images"
       }
     ],
     "WEB_COMPONENTS":[
@@ -33,16 +39,10 @@
         "TITLE": "INPUTS",
         "INPUTS" : [ 
           "text", "email", "phone", "number", "password", "date", "time", "select", 
-          "signature", "checkbox", "radio-buttons", "textarea"
+          "signature", "checkbox", "radio-buttons", "textarea", "files"
         ]
-      },
-      {
-        "TITLE": "IMAGES",
-        "INPUTS" : [ "one-image", "multi-images", "files", "image-view"]
       }
-
     ]
-    
   }
 }
 

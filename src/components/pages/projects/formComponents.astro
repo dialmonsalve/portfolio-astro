@@ -5,6 +5,7 @@ import "../../../styles/pages/create-inputs/page.css";
 import "../../../styles/pages/create-inputs/inputs.css";
 import "../../../styles/components/modal.css";
 import "../../../styles/components/button.css";
+import "../../../styles/components/signature.css";
 
 const { currentLocale } = Astro;
 const i18n = getI18N({ currentLocale });
@@ -12,9 +13,7 @@ const i18n = getI18N({ currentLocale });
 
 <section class="section-forms" id="section-forms">
   <Menu />
-  <style></style>
-
-  <h1 transition:name="web-components">
+  <h1 transition:name="web-components" class="h1-web-components">
     {i18n.PROJECTS.INTERNAL_PROJECTS[0].TITLE}
   </h1>
 

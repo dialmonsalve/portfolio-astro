@@ -1,0 +1,30 @@
+.canvas-signature {
+  border: thin solid var(--gray);
+  border-radius: 5px;
+}
+.container-signature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.btn-clear-signature {
+  color: var(--red);
+  padding: 0.5rem;
+  border: thin solid var(--red);
+  border-radius: 10px;
+  box-shadow:
+    1px 1px 4px var(--shadow1),
+    2px 2px 8px var(--shadow2);
+  font-size: 1rem;
+}
+
+.btn-clear-signature:hover {
+  background-color: var(--red);
+  color: var(--color-white);
+}
+
+.btn-clear-signature:active {
+  box-shadow: 1px -1px 8px var(--shadow1) inset;
+}

@@ -22,6 +22,12 @@
         "IMAGE": "",
         "DESCRIPTION": "Crea tus formularios",
         "SLUG": "web-components"
+      },
+      {
+        "TITLE": "Conversor de imágenes",
+        "IMAGE": "",
+        "DESCRIPTION": "Cambie el formato de sus imagenes",
+        "SLUG": "convert-images"
       }
     ],
     "WEB_COMPONENTS":[
@@ -33,12 +39,8 @@
         "TITLE": "INPUTS",
         "INPUTS" : [ 
           "text", "email", "phone", "number", "password", "date", "time", "select", 
-          "signature", "checkbox", "radio-buttons", "textarea"
+          "signature", "checkbox", "radio-buttons", "textarea", "files"
         ]
-      },
-      {
-        "TITLE": "IMAGENES",
-        "INPUTS" : [ "one-image", "multi-images", "files", "image-view"]
       }
     ]
   }

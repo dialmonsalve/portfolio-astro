@@ -1,49 +1,56 @@
-.button-square-add ,
+.button-square-add,
 .button-square-update,
 .button-square-remove {
   background-repeat: no-repeat;
   width: 18px;
   height: 18px;
-  background-color: white;
   background-size: cover;
 }
 
 .button-square-update {
-    background-image: url('/img/update.svg');
-    position: absolute;
-    left: 10px;
-    top: 0;
+  background-image: url("/img/configure.svg");
+  position: absolute;
+  left: 10px;
+  top: 0;
+  transition: all 0.3s ease-in-out;
 }
 
 .button-square-add {
-  background-image: url('/img/add.svg');
+  background-image: url("/img/add.svg");
+  transition: transform 0.3s ease-in-out;
 }
 
 .button-square-remove {
-  background-image: url('/img/minus.svg');
+  background-image: url("/img/minus.svg");
+  transition: transform 0.3s ease-in-out;
 }
 
 .inputs-btn-update {
-    position: absolute;
-    left: -10px;
-    top: -20px;
+  position: absolute;
+  left: -10px;
+  top: -20px;
+}
+
+.inputs-btn-update:hover > .button-square-update {
+  background-image: url("/img/fullConfigure.svg");
+  rotate: 180deg;
 }
 
 .inputs-btn-delete {
-    position: absolute;
-    left: 25px;
-    top: -21px;
-    display: flex;
+  position: absolute;
+  left: 25px;
+  top: -21px;
+  display: flex;
 }
 
-.card__button-add, .card__button-remove{
+.card__button-add,
+.card__button-remove {
   position: absolute;
   top: -20px;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
-  gap: .5rem;
-
+  gap: 0.5rem;
 }
 .card__button-add {
   right: 0;
@@ -55,11 +62,15 @@
   color: var(--red);
 }
 
-.card__button-add:hover {
-  opacity: .65;
+.card__button-add:hover > .button-square-add {
+  transform: scale(1.3);
+}
+
+.inputs-btn-delete:hover > .button-square-remove {
+  transform: scale(1.3);
 }
 
 .heading1,
 .heading2 {
-    width: 100%;
+  width: 100%;
 }
