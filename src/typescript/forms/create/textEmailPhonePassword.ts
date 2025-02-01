@@ -18,6 +18,7 @@ export default function input({
   let incrementId = 0;
 
   $input?.addEventListener("click", () => {
+  
     incrementId++;
     create({
       incrementId,

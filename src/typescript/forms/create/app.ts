@@ -12,23 +12,9 @@ import radioButtons from "./radioButtons";
 import select from "./select";
 import signature from "./signature";
 
-import storage from "../utils/saveAtLocalStorage";
 import navigateInPage from "../utils/navigateInPage";
 
-(() => {
-  const pages = JSON.parse(
-    `[{ 
-            "page": "Container", 
-            "id": "card-1", 
-            "buttonIdUpdate": "add-page",
-            "containerPosition": 1,
-            "buttonIdRemove":null,
-            "containerId": "",
-            "inputs": []
-        }]`,
-  );
-
-  storage.saveAtLocalStorage(pages);
+document.addEventListener('astro:page-load', ()=> {
 
   navigateInPage();
   createPage();
@@ -47,4 +33,4 @@ import navigateInPage from "../utils/navigateInPage";
   select();
   radioButtons();
   files();
-})();
+})

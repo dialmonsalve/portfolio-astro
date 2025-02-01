@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import Header from "./Header.astro";
 import Navbar from "./Navbar.astro";
 import Footer from "./Footer.astro";
@@ -50,7 +50,7 @@ const { currentLocale } = Astro;
 
       document.addEventListener("astro:after-swap", setTheme);
     </script>
-    <ViewTransitions fallback="animate" />
+    <ClientRouter />
   </head>
 
   <body>

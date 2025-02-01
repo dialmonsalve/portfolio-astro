@@ -4,7 +4,7 @@ import { addImageByDrop } from "./utils/addImageByDrop";
 const body = document.querySelector("body");
 const drawer = document.createElement("canvas");
 
-(() => {
+document.addEventListener ("astro:page-load", () => {
   const uploads = document.querySelectorAll(
     `.uploader-image`,
   ) as NodeListOf<HTMLDivElement>;
@@ -21,7 +21,7 @@ const drawer = document.createElement("canvas");
     $parentDiv?.addEventListener("drop", addImageByDrop);
     $parentDiv?.addEventListener("dragover", dragOverEvent);
   }
-})();
+});
 
 function dragOverEvent(evt: DragEvent) {
   evt.preventDefault();

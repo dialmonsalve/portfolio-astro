@@ -7,7 +7,6 @@ import storage from "../utils/saveAtLocalStorage";
 import cleanTextInputs from "../utils/cleanTextInputs";
 import addRequiredToInput from "../utils/addRequiredToInput";
 import { AppInput, AppRadioButtons } from "../../web-components";
-import type { Inputs } from "../interfaces";
 
 interface OptionsCreate {
   object: "Text" | "Email" | "Phone" | "Password";
@@ -24,6 +23,7 @@ const $ = (selector: string) => doc.querySelector(selector);
 const $containerCards = $(".container-forms");
 
 export function create({ object, type, incrementId }: OptionsCreate) {
+ 
   const $parentDiv = document.createElement("DIV");
   const $parentInput = document.createElement("DIV");
   const isPassword = object === "Password" ? "password" : type;
@@ -95,20 +95,6 @@ export function create({ object, type, incrementId }: OptionsCreate) {
   $parentDiv?.appendChild($parentInput);
   $lastChildren?.appendChild($parentDiv);
 
-  const updateInputs: Inputs = {
-    buttonIdRemove,
-    buttonIdUpdate,
-    containerId,
-    disposition: "row",
-    id,
-    label: newLabel,
-    name,
-    object,
-    placeholder: null,
-    required: false,
-  };
-
-  storage.create($lastChildren, updateInputs);
 }
 
 export function bodyModal(
